@@ -1,0 +1,588 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hadi Reflect</title>
+
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Dancing+Script&family=Great+Vibes&family=Pacifico&family=Satisfy&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cookie&family=Courgette&family=Lobster&family=Mr+Dafoe&family=Sacramento&family=Yellowtail&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+
+
+    :root {
+  --bg: #0f172a;
+  --text: #f1f5f9;
+  --accent: #38bdf8;
+}
+
+.light-theme {
+  --bg: #e2e8f0;
+  --text: #0f172a;
+  --accent: #0ea5e9;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+  font-family: 'Poppins', sans-serif;
+  /* font-family: 'Courgette', cursive; */
+  margin: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+
+header {
+  background-color: var(--accent);
+  padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: relative;
+    }
+    
+    header h1 {
+      /* font-family: 'Dancing Script', cursive; Best */
+      /* font-family: 'Lobster', cursive; */
+      /* font-family: 'Cookie', cursive;   */
+      /* font-family: 'Courgette', cursive;   */
+      font-family: 'Dancing Script', cursive !important; 
+      /* font-family: 'Alex Brush', cursive;  /*-- super impressive */
+      /* font-family: 'Yellowtail', cursive;   - super joining writing */
+      /* font-family: 'Sacramento', cursive; 1st */
+      font-weight: light;
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      position: relative;
+      margin-left: auto;
+    }
+
+    nav a {
+      margin: 0 0.5rem;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    #theme-toggle {
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+
+    .hero h2 {
+      font-size: 2.5rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .accent-button {
+      margin-top: 2rem;
+      padding: 0.8rem 2rem;
+      border: none;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: var(--accent);
+      color: #000;
+    }
+
+    .light-theme .accent-button {
+      color: white;
+    }
+
+    .posts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
+      margin: 0 20px !important;
+    }
+
+    
+    .post-card {
+  background-color: #1e293b;
+  color: var(--text);
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: auto;
+
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+}
+
+.post-card h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.6rem;
+  min-height: 40px; 
+  line-height: 1.2;
+}
+
+.post-card p {
+  
+  flex-grow: 1;
+  font-size: 0.9rem;
+  
+  margin-bottom: 0.8rem;
+  line-height: 1.3;
+  min-height: 50px; 
+}
+
+.post-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.post-card p {
+  align-items: center;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  line-clamp: 3; 
+}
+
+    .light-theme .post-card {
+      background-color: #fff;
+      color: var(--text);
+    }
+
+    .post-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .post-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .post-actions a {
+      color: var(--accent);
+      text-decoration: none;
+      margin-right: 1rem;
+    }
+
+    .post-actions a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-icons a {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-right: 1rem;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .footer-icons a:hover {
+      color: #60a5fa;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+    }
+
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: var(--text);
+      cursor: pointer;
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        width: 100%;
+        display: none;
+        background-color: var(--accent);
+        margin-top: 1rem;
+      }
+
+      nav.show {
+        display: flex;
+      }
+
+      nav a {
+        padding: 0.5rem 0;
+      }
+
+      #theme-toggle {
+        margin-top: 0.5rem;
+      }
+
+      .hamburger {
+        display: block;
+      }
+    }
+    .profile-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.icon-circle {
+  width: 50px;
+  height: 50px;
+  background-color: var(--text); /* Dynamic based on theme */
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 1.3rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.icon-circle:hover {
+  transform: scale(1.1);
+  background-color: var(--accent);
+  color: #fff;
+}
+
+/* Expand hero content to 80% */
+.hero p {
+  max-width: 80%;
+}
+
+/* Responsive clamp for paragraph */
+@media (max-width: 768px) {
+  .hero p {
+    font-size: 1rem;
+    -webkit-line-clamp: 4;
+    line-clamp: 4 ;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+/* LIGHT THEME FIX */
+.light-theme .icon-circle {
+  background-color: #f0f0f0; /* soft grey bg */
+  color: #111; /* bold icon color */
+}
+
+.light-theme .icon-circle:hover {
+  background-color: var(--accent); /* highlight on hover */
+  color: white;
+}
+
+
+.posts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Exactly 3 per row */
+  gap: 2rem;
+  padding: 2rem;
+  /* max-width: 1400px; Optional: keeps the layout clean and centered */
+  margin: 0 auto; /* Centering the posts grid */
+}
+
+@media (max-width: 1024px) {
+  .posts {
+    grid-template-columns: repeat(2, 1fr); /* 2 per row on tablets */
+  }
+}
+
+@media (max-width: 768px) {
+  .posts {
+    grid-template-columns: 1fr; /* 1 per row on small screens */
+    padding: 1rem;
+  }
+}
+html {
+  scroll-behavior: smooth;
+}
+
+  </style>
+</head>
+<body>
+  <header>
+  <h1>Hadi Reflect</h1>
+    <!-- <img src="{% static 'logo.png' %}" alt="" style="width: 250px; height: auto; font-weight: bold;"> -->
+    
+      
+    <button class="hamburger" id="hamburger">&#9776;</button>
+    <nav id="nav">
+      <a href="#">Home</a>
+      <a href="#posts">Blog</a>
+      <a href="#icon-row">Contact</a>
+      <button id="theme-toggle" aria-label="Toggle Theme">
+        <span id="icon"><i class="fas fa-moon"></i></span>
+      </button>
+    </nav>
+  </header>
+
+
+
+  <section class="hero">
+    <h2>Hi, I'm Abdul Hadi Salman</h2>
+    <p>A passionate Python developer & tech explorer — welcome to my digital journal where code meets creativity. Here, I share my journey of building innovative projects, solving complex problems, and constantly learning. Join me as I dive deep into the world of programming, technology, and more!</p>
+  </section>
+  
+
+  <section style="text-align: center; padding: 1rem 2rem;" id="posts">
+    <h2 style="font-size: 2rem; margin-bottom: 0.5rem;">Latest Blogs</h2>
+    <p>Fresh thoughts, insights & dev journeys ✨</p>
+  </section>
+
+  
+  <section class="posts" >
+    {% for blog in blogs %}
+      <div class="post-card">
+        <h3>{{ blog.title }}</h3>
+        <!-- <p>{{ blog.content|truncatewords:20|safe }}</p> -->
+        <p>{{ blog.summary|safe|truncatewords:25|default:" "  }}</p>
+        <div class="post-actions footer-icons" style="font-weight: bold;">
+          <a href="{% url 'blog_detail' blog.slug %}">
+            Read More →
+        </a>
+        </div>
+      </div>
+    {% endfor %}
+    
+
+    
+
+  </section>
+      
+      <style>
+       .connect-wrapper {
+          text-align: center;
+          margin-top: 2rem;
+        }
+        
+        .section-heading {
+          font-size: 2rem;
+          font-weight: 600;
+          margin-bottom: 1rem;
+          color: var(--text); /* keeps it dynamic for light/dark theme */
+        }
+        
+        .slogan {
+          font-size: 1.2rem;  /* Larger font size for the slogan */
+          font-weight: 500;
+          color: var(--text-light);  /* Light color for better contrast */
+          margin-bottom: 2rem;  /* Space between slogan and icons */
+          margin-left: 10px;
+          margin-right: 10px;
+        }
+        
+        .icon-container {
+          display: flex;
+          justify-content: center;
+          gap: 1rem;
+          flex-wrap: wrap;
+        }
+        
+        /* Media Query for smaller screens */
+        @media screen and (max-width: 768px) {
+          .section-heading {
+            font-size: 1.5rem;  /* Adjust heading font size for smaller screens */
+          }
+        
+          .slogan {
+            font-size: 1rem;  /* Smaller font size for the slogan on mobile */
+            margin-bottom: 1.5rem;  /* Adjust spacing between slogan and icons */
+          }
+        
+          .icon-container {
+            gap: 0.8rem;  /* Reduce gap between icons */
+          }
+        }
+        
+        /* Media Query for even smaller screens (mobile portrait) */
+        @media screen and (max-width: 480px) {
+          .section-heading {
+            font-size: 1.2rem;  /* Smaller heading for very small screens */
+          }
+        
+          .slogan {
+            font-size: 0.9rem;  /* Even smaller font size for the slogan */
+            margin-bottom: 1rem;  /* Reduce margin for very compact view */
+          }
+        
+          .icon-container {
+            gap: 0.5rem;  /* Even smaller gap between icons */
+          }
+        }
+   </style> 
+
+  <section class="profile-links">
+    <div class="connect-wrapper">
+      <h2 class="section-heading">Connect with me</h2>
+      <p class="slogan">Let's collaborate, share ideas, and build something amazing together!</p> <!-- New slogan line -->
+      
+      
+      <style>
+      
+.icon-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+
+.icon-circle {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #eee;
+  color: #333;
+  font-size: 24px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+/* Portfolio Hover Effect */
+.portfolio-icon:hover, .light-theme .portfolio-icon:hover {
+  background-color: #44ff44; /* light green */
+  color: #fff;
+}
+
+/* GitHub Hover Effect */
+.github-icon:hover, .light-theme .github-icon:hover{
+  background-color: #000;
+  color: #fff;
+}
+
+/* LinkedIn Hover Effect (optional) */
+.linkedin-icon:hover, .light-theme .linkedin-icon:hover {
+  background-color: #0077b5;
+  color: #fff;
+}
+
+/* Responsive Gaps */
+@media screen and (max-width: 768px) {
+  .icon-row {
+    gap: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .icon-row {
+    gap: 1.1rem;
+  }
+}
+
+      </style>
+     
+    <div class="icon-row" id="icon-row">
+      <!-- <a href="https://yourportfolio.com" target="_blank" class="icon-circle portfolio-icon" title="Portfolio">
+        <i class="fas fa-user"></i>
+      </a> -->
+      <a href="https://github.com/AbdulHadi-Programmer/" target="_blank" class="icon-circle github-icon" title="GitHub">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="https://www.linkedin.com/in/abdul-hadi-43934b28a/" target="_blank" class="icon-circle linkedin-icon" title="LinkedIn">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+  </div>
+  
+  
+</section>
+  
+  
+
+  <footer>
+    &copy; 2025 Hadi Reflect | Designed with purpose and passion.
+  </footer>
+
+  <script>
+
+
+    const toggleBtn = document.getElementById('theme-toggle');
+const iconSpan = document.getElementById('icon');
+const hamburger = document.getElementById('hamburger');
+const nav = document.getElementById('nav');
+
+// Check localStorage for saved theme
+window.onload = () => {
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    document.body.classList.add(savedTheme);
+    const isLight = savedTheme === 'light-theme';
+    iconSpan.innerHTML = isLight ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+
+  } else {
+    // Default theme is dark if no theme is stored
+    document.body.classList.add('dark-theme');
+    iconSpan.textContent = '<i class="fas fa-moon"></i>';
+  }
+};
+
+// Toggle theme and save to localStorage
+toggleBtn.addEventListener('click', () => {
+  document.body.classList.toggle('light-theme');
+  const isLight = document.body.classList.contains('light-theme');
+  iconSpan.innerHTML = isLight ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+  // Save the theme in localStorage
+  localStorage.setItem('theme', isLight ? 'light-theme' : 'dark-theme');
+});
+
+// Hamburger menu toggle
+hamburger.addEventListener('click', () => {
+  nav.classList.toggle('show');
+});
+
+  </script>
+</body>
+</html>
+
+
+

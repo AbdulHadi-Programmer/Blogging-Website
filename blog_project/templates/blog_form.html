@@ -1,0 +1,18 @@
+<h1>{% if is_update %}Edit Blog{% else %}Create New Blog{% endif %}</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    
+    <label for="id_title">Title:</label>
+    {{ form.title }}
+
+    <!-- <label for="id_slug">Slug:</label>
+    {{ form.slug }} -->
+
+    <label for="id_content">Content:</label>
+    {{ form.content }}
+
+    <button type="submit">Save</button>
+</form>
+
+<a href="{% url 'blog_list' %}">Cancel</a>
