@@ -1,33 +1,12 @@
-# from django.db import models
-# from django.utils.text import slugify
-# from ckeditor.fields import RichTextField
-
-# # Create your models here.
-# class BlogPost(models.Model):
-#     title = models.CharField(max_length=200)
-#     slug = models.SlugField(unique=True, blank=True)
-#     content = RichTextField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now = True)
-    
-#     def save(self, *args, **kwargs):
-#         if not self.slug:  # Generate slug only if it's empty
-#             self.slug = slugify(self.title)  
-#         super().save(*args, **kwargs)  # ✅ Correct usage
-
-#     def __str__(self):
-#         return self.title
-    
-from django.db import models
+    from django.db import models
 from django.utils.text import slugify
-# from ckeditor.fields import RichTextField
 
 # Category model for grouping posts
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.CharField(max_length=500, blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True)
-    
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)

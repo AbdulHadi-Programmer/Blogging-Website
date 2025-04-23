@@ -39,10 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'authentication', 
     'blog',
-    # 'ckeditor',
     'tinymce',
 ]
-CKEDITOR_UPLOAD_PATH = "uploads/"
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [
