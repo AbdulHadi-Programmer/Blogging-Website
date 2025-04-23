@@ -1,4 +1,4 @@
-    from django.db import models
+from django.db import models
 from django.utils.text import slugify
 
 # Category model for grouping posts

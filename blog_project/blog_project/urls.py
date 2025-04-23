@@ -23,8 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('authentication.urls')),
     path('', include('blog.urls')),
-    # path('ckeditor/', include('ckeditor_uploader.urls')),  # only if using uploads
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # only if using uploads
 
