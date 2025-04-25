@@ -378,7 +378,9 @@ html {
 
   
   <section class="posts" >
-    {% for blog in blogs %}
+    
+  {% for blog in blogs %}
+    {% if blog.is_published %}
       <div class="post-card">
         <h3>{{ blog.title }}</h3>
         <!-- <p>{{ blog.content|truncatewords:20|safe }}</p> -->
@@ -389,7 +391,8 @@ html {
         </a>
         </div>
       </div>
-    {% endfor %}
+      {% endif %}
+  {% endfor %}
     
 
     
