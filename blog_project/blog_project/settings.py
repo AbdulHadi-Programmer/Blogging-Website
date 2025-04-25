@@ -26,12 +26,8 @@ SECRET_KEY = 'django-insecure-9a$4gs@#t9&e35zi^@)zb9d&p@z-s80$juybi3*f^qp^n+e^_k
 DEBUG = True
 
 # ALLOWED_HOSTS = ["*"]
-ALLOWED_HOSTS = [
-    'hadireflect.pythonanywhere.com',
-    'www.hadireflect.pythonanywhere.com',  # just in case
-    '127.0.0.1',  # optional, for local testing
-    'localhost'
-]
+# ALLOWED_HOSTS = ['hadireflect.pythonanywhere.com']
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
