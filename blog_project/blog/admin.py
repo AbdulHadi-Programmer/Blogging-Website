@@ -3,7 +3,7 @@ from .models import *
 # Register your models here.
 
 class BlogPostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'content')
+    list_display = ('title', 'summary')
 
 admin.site.register(BlogPost, BlogPostAdmin)
 
