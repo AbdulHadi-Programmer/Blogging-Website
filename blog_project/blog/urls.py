@@ -19,5 +19,6 @@ urlpatterns = [
     path('blogs/create/', blog_create_update, name='blog_create'),  # Create new blog
     path('blogs/<slug:slug>/edit/', blog_create_update, name='blog_update'),  # Update existing blog
     path('blogs/<slug:slug>/delete/', blog_delete, name='blog_delete'),  # Delete blog
-   
+    path('blog/add/', blog_create_update, name='blog_create'),
+    path('blog/edit/<slug:slug>/', blog_create_update, name='blog_update'),
 ]

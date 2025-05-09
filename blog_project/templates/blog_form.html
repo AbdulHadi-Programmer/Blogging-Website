@@ -1,3 +1,4 @@
+<!-- {% load static %}
 <head>  <link rel="icon" type="image/jpeg" href="{% static 'logo_new_.png' %}">
 </head>
 <h1>{% if is_update %}Edit Blog{% else %}Create New Blog{% endif %}</h1>
@@ -8,8 +9,8 @@
     <label for="id_title">Title:</label>
     {{ form.title }}
 
-    <!-- <label for="id_slug">Slug:</label>
-    {{ form.slug }} -->
+    <label for="id_slug">Slug:</label>
+    {{ form.slug }}
 
     <label for="id_content">Content:</label>
     {{ form.content }}
@@ -17,4 +18,135 @@
     <button type="submit">Save</button>
 </form>
 
+<a href="{% url 'blog_list' %}">Cancel</a> -->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% if is_update %}Edit Blog{% else %}Create Blog{% endif %}</title>
+  <link rel="icon" type="image/jpeg" href="{% static 'logo_new_.png' %}">
+  <!-- Add the CSS style block above here -->
+  <style>
+:root {
+  --bg: #0f172a;
+  --text: #f1f5f9;
+  --accent: #38bdf8;
+}
+
+.light-theme {
+  --bg: #e2e8f0;
+  --text: #0f172a;
+  --accent: #0ea5e9;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Poppins', sans-serif;
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+form {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  background-color: #1e293b;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+form label {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+form input[type="text"],
+form textarea,
+form select {
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+form button[type="submit"] {
+  background-color: var(--accent);
+  color: #000;
+  border: none;
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #0ea5e9;
+  color: white;
+}
+
+a {
+  display: block;
+  text-align: center;
+  margin-top: 1rem;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.light-theme body {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.light-theme form {
+  background-color: #fff;
+}
+
+.light-theme input,
+.light-theme textarea,
+.light-theme select {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+</style>
+
+</head>
+<body>
+
+<h1>{% if is_update %}Edit Blog{% else %}Create New Blog{% endif %}</h1>
+
+<form method="POST">
+  {% csrf_token %}
+  
+  <label for="id_title">Title:</label>
+  {{ form.title }}
+
+  <label for="id_content">Content:</label>
+  {{ form.content }}
+
+  <button type="submit">Save</button>
+</form>
+
 <a href="{% url 'blog_list' %}">Cancel</a>
+
+</body>
+</html>
