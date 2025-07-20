@@ -4,10 +4,6 @@ from .models import *
 from .forms import BlogPostForm
 
 
-# Create your views here.
-# def home(request):
-#     return HttpResponse("<h1>Abdul Hadi Personal Blogging Website</h1>")
-    # return render(request, 'index.html')
 
 # View All Blog list :
 def blog_list(request):

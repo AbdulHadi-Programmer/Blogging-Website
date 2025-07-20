@@ -46,7 +46,7 @@
       position: relative;
     }
 
-    header h1 {
+    header h4 {
       font-family: 'Dancing Script', cursive !important; 
       margin: 0;
       font-size: 2rem;
@@ -234,12 +234,18 @@
         font-size: 1.8rem;
       }
 
-      header h1 {
+      header h4 {
         font-size: 2em;
       }
     }
 
     @media (max-width: 768px) {
+      header h4 {
+        font-size: 1.5rem;
+      }
+      #hamburger {
+        font-size: 1.5rem;
+      }
       nav {
         flex-direction: column;
         width: 100%;
@@ -288,8 +294,8 @@
         line-height: 1.3;
       }
 
-      header h1 {
-        font-size: 2rem;
+      header h4 {
+        font-size: 1.5rem;
       }
     }
 
@@ -349,13 +355,21 @@
     }
 
   }
+  @media (max-width: 420px) {
+      header h4 {
+        font-size: 1.5rem;
+      }
+      #hamburger {
+        font-size: 1.5rem;
+      }
+    }
 
 </style>
 </head>
 
 <body>
   <header>
-    <h1>Hadi Reflect</h1>
+    <h4>Hadi Reflect</h4>
     <button class="hamburger" id="hamburger" style="font-weight: bold;">&#9776;</button>
     <nav id="nav">
       <a href="/">Home</a>
