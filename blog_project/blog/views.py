@@ -2,13 +2,20 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import *
 from .forms import BlogPostForm
-
+from django.core.paginator import Paginator
 
 
 # View All Blog list :
 def blog_list(request):
-    blogs = BlogPost.objects.all()
-    return render(request, 'blog_list.html', {'blogs': blogs})
+    blogs = BlogPost.objects.filter(is_published=True).order_by('-created_at')
+    paginator = Paginator(blogs, 6)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # return render(request, 'blog_list.html', {'blogs': blogs})
+    return render(request, 'blog_list.html', {'page_obj': page_obj})
+
 
 def recent_blog(request):
     related_blogs = BlogPost.objects.all()

@@ -1,11 +1,420 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% load static %}
+
+<style>
+:root {
+  --bg: #0f172a;
+  --text: #f1f5f9;
+  --accent: #38bdf8;
+  --link: #3da9fc;
+}
+
+.light-theme {
+  --bg: #e2e8f0;
+  --text: #0f172a;
+  --accent: #0ea5e9;
+  --link: #0077b6;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Poppins', sans-serif !important;
+  margin: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+header {
+  background-color: var(--accent);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  backdrop-filter: saturate(120%) blur(6px);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+header .logo-text {
+  font-family: 'Dancing Script', cursive !important;
+  font-weight: bolder;
+  margin: 0;
+  font-size: 2rem;
+  text-decoration: none; 
+  color: var(--text);
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  margin-left: auto;
+}
+
+nav a {
+  margin: 0 0.5rem;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#theme-toggle {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--text);
+  cursor: pointer;
+  position: absolute;
+  right: 1rem;
+}
+
+/* Mobile menu */
+@media (max-width: 768px) {
+  header .logo-text {
+    font-size: 1.5rem;
+  }
+  nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--accent);
+    flex-direction: column;
+    align-items: center;
+    display: none;
+    padding: 0.5rem 0;
+    margin: 0;
+  }
+  nav.show {
+    display: flex;
+  }
+  nav a {
+    padding: 0.7rem 0;
+    width: 100%;
+    text-align: center;
+  }
+  #theme-toggle {
+    margin-top: 0.5rem;
+  }
+  .hamburger {
+    display: block;
+  }
+}
+
+@media (max-width: 420px) {
+  header .logo-text {
+    font-size: 1.5rem;
+  }
+}
+.hamburger {
+  font-size: 2rem; /* default desktop */
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    font-size: 1.8rem; /* still large enough for tap */
+  }
+}
+
+@media (max-width: 420px) {
+  .hamburger {
+    font-size: 1.7rem; /* slightly smaller but not tiny */
+  }
+}
+
+/* ---------- EXTRA MEDIA QUERIES ---------- */
+@media (min-width: 1440px) {
+  body { font-size: 18px; }
+  header .logo-text { font-size: 2.5rem; }
+  nav a { font-size: 1.1rem; }
+}
+
+@media (min-width: 1024px) and (max-width: 1439px) {
+  body { font-size: 16px; }
+  header .logo-text { font-size: 2.2rem; }
+  nav a { font-size: 1rem; }
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+  body { font-size: 15px; }
+  header .logo-text { font-size: 2rem; }
+  nav a { font-size: 0.95rem; }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  body { font-size: 14px; }
+  header .logo-text { font-size: 1.6rem; }
+  nav a { font-size: 0.9rem; }
+}
+
+@media (max-width: 480px) {
+  body { font-size: 13px; }
+  header .logo-text { font-size: 1.4rem; }
+  nav a { font-size: 0.85rem; }
+}
+
+footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.9rem;
+}
+</style>
+
+<header id="header">
+  <a href="#header" class="logo-text">Hadi Reflect</a>
+  <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+  <nav id="nav">
+    <a href="#">Home</a>
+    <a href="#posts">Blog</a>
+    <a href="#icon-row">Contact</a>
+    <button id="theme-toggle" aria-label="Toggle Theme">
+      <span id="icon"><i class="fas fa-moon"></i></span>
+    </button>
+  </nav>
+</header>
+
+
+<script>
+const toggleBtn = document.getElementById('theme-toggle');
+const iconSpan = document.getElementById('icon');
+const hamburger = document.getElementById('hamburger');
+const nav = document.getElementById('nav');
+
+// Load theme from localStorage
+window.onload = () => {
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    document.body.classList.add(savedTheme);
+    const isLight = savedTheme === 'light-theme';
+    iconSpan.innerHTML = isLight ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+  } else {
+    document.body.classList.add('dark-theme');
+    iconSpan.innerHTML = '<i class="fas fa-moon"></i>';
+  }
+};
+
+// Theme toggle
+toggleBtn.addEventListener('click', () => {
+  document.body.classList.toggle('light-theme');
+  const isLight = document.body.classList.contains('light-theme');
+  iconSpan.innerHTML = isLight ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+  localStorage.setItem('theme', isLight ? 'light-theme' : 'dark-theme');
+});
+
+// Hamburger menu toggle
+hamburger.addEventListener('click', () => {
+  nav.classList.toggle('show');
+  hamburger.innerHTML = nav.classList.contains('show') 
+    ? '<i class="fas fa-times"></i>' 
+    : '<i class="fas fa-bars"></i>';
+});
+</script>
+
+<!-- {% load static %}
+
+
+<style>
+:root {
+  --bg: #0f172a;
+  --text: #f1f5f9;
+  --accent: #38bdf8;
+}
+
+.light-theme {
+  --bg: #e2e8f0;
+  --text: #0f172a;
+  --accent: #0ea5e9;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Poppins', sans-serif !important;
+  margin: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+header {
+  background-color: var(--accent);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  position: relative;
+  height: auto;
+}
+
+header .logo-text {
+  font-family: 'Dancing Script', cursive !important;
+  font-weight: bolder;
+  margin: 0;
+  font-size: 2rem;
+  text-decoration: none; 
+  color: var(--text);
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  margin-left: auto;
+}
+
+nav a {
+  margin: 0 0.5rem;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#theme-toggle {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--text);
+  cursor: pointer;
+  position: absolute;
+  right: 1rem;
+}
+
+@media (max-width: 768px) {
+  header .logo-text {
+    font-size: 1.5rem;
+  }
+  #hamburger {
+    font-size: 1.5rem;
+  }
+  nav {
+    flex-direction: column;
+    width: 100%;
+    display: none;
+    background-color: var(--accent);
+    margin-top: 1rem;
+  }
+  nav.show {
+    display: flex;
+  }
+  nav a {
+    padding: 0.5rem 0;
+  }
+  #theme-toggle {
+    margin-top: 0.5rem;
+  }
+  .hamburger {
+    display: block;
+  }
+}
+
+@media (max-width: 420px) {
+  header .logo-text {
+    font-size: 1.5rem;
+  }
+  #hamburger {
+    font-size: 1.5rem;
+  }
+}
+
+/* ////////////////////////////////////////////////////////////////////////// */
+/* make header stick to top when scrolling */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  backdrop-filter: saturate(120%) blur(6px);
+}
+
+header {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+:target {
+  scroll-margin-top: 80px;
+}
+
+@media (max-width: 768px) {
+  header {
+    padding: 0.6rem 1rem;
+  }
+  header .logo-text { font-size: 1.2rem; }
+}
+
+/* ---------- EXTRA MEDIA QUERIES ADDED ---------- */
+
+/* Large desktop screens (1440px and above) */
+@media (min-width: 1440px) {
+  body { font-size: 18px; }
+  header .logo-text { font-size: 2.5rem; }
+  nav a { font-size: 1.1rem; }
+}
+
+/* Standard laptops/desktops (1024px - 1439px) */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  body { font-size: 16px; }
+  header .logo-text { font-size: 2.2rem; }
+  nav a { font-size: 1rem; }
+}
+
+/* Small laptops/tablets landscape (769px - 1023px) */
+@media (min-width: 769px) and (max-width: 1023px) {
+  body { font-size: 15px; }
+  header .logo-text { font-size: 2rem; }
+  nav a { font-size: 0.95rem; }
+}
+
+/* Small tablets (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  body { font-size: 14px; }
+  header .logo-text { font-size: 1.6rem; }
+  nav a { font-size: 0.9rem; }
+}
+
+/* Very small mobile (up to 480px) */
+@media (max-width: 480px) {
+  body { font-size: 13px; }
+  header .logo-text { font-size: 1.4rem; }
+  nav a { font-size: 0.85rem; }
+}
+</style>
+
+
+<header id="header">
+    <a href="#header" class="logo-text" style="font-family: 'Dancing Script', cursive;">Hadi Reflect</a>
     
-</body>
-</html>
+
+    <button  class="hamburger" id="hamburger">&#9776;</button>
+    <nav id="nav">
+      <a href="#">Home</a>
+      <a href="#posts">Blog</a>
+      <a href="#icon-row">Contact</a>
+      <button id="theme-toggle" aria-label="Toggle Theme">
+        <span id="icon"><i class="fas fa-moon"></i></span>
+      </button>
+    </nav>
+  </header>
+ -->
+

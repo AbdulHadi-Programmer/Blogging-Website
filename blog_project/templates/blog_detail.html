@@ -13,415 +13,286 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/jpeg" href="{% static 'logo_new_.png' %}">
 
-  
   <style>
-    :root {
-      --bg: #0f172a;
-      --text: #f1f5f9;
-      --accent: #38bdf8;
+  :root {
+    --bg: #0f172a;
+    --text: #f1f5f9;
+    --accent: #38bdf8;
+  }
+
+  .light-theme {
+    --bg: #e2e8f0;
+    --text: #0f172a;
+    --accent: #0ea5e9;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .hero {
+    text-align: center;
+    padding: 4rem 2rem;
+  }
+
+  .hero h2 {
+    font-size: 2.5rem;
+  }
+
+  .hero p {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .accent-button {
+    margin-top: 2rem;
+    padding: 0.8rem 2rem;
+    border: none;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: var(--accent);
+    color: #000;
+  }
+
+  .light-theme .accent-button {
+    color: white;
+  }
+
+  .posts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
+  }
+
+  .post-card {
+    background-color: #1e293b;
+    color: var(--text);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .post-card h3 {
+    font-weight: bold;
+    font-size: 1.15rem;
+    margin-bottom: 0.6rem;
+    line-height: 1.2;
+  }
+
+  .post-card p {
+    font-size: 0.9rem;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
+
+  .light-theme .post-card {
+    background-color: #fff;
+    color: var(--text);
+  }
+
+  .post-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .post-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+  }
+
+  .post-actions a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--accent);
+    color: #000;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+
+  .footer-icons a {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-right: 1rem;
+    color: var(--accent);
+  }
+
+  .footer-icons a:hover {
+    color: #60a5fa;
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.9rem;
+    margin-top: auto;
+  }
+
+  .blog-read {
+    padding: 3rem 2rem;
+    margin: 0 20rem;
+  }
+
+  .blog-read h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    margin: 0 8rem;
+  }
+
+  .blog-read p {
+    font-size: 1.1rem;
+  }
+
+  h4 {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  /* Media Queries */
+  @media (max-width: 1028px) {
+    .blog-read {
+      padding: 2.5rem 1.5rem;
     }
 
-    .light-theme {
-      --bg: #e2e8f0;
-      --text: #0f172a;
-      --accent: #0ea5e9;
+    .blog-read h1 {
+      margin: 0 3rem;
+      font-size: 1.8rem;
     }
+  }
 
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      transition: all 0.3s ease-in-out;
-    }
-
-    header {
-      background-color: var(--accent);
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      position: relative;
-    }
-
-    header h4 {
-      font-family: 'Dancing Script', cursive !important; 
-      margin: 0;
-      font-size: 2rem;
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-left: auto;
-    }
-
-    nav a {
-      color: var(--text);
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    #theme-toggle {
-      background: transparent;
-      border: none;
-      color: var(--text);
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    .hamburger {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 2rem;
-      color: var(--text);
-      cursor: pointer;
-      position: absolute;
-      top: 0.5rem;
-      right: 1rem;
-      padding-bottom: 2rem;
-    }
-
-    .hero {
-      text-align: center;
-      padding: 4rem 2rem;
-    }
-
-    .hero h2 {
-      font-size: 2.5rem;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      margin-top: 1rem;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .accent-button {
-      margin-top: 2rem;
-      padding: 0.8rem 2rem;
-      border: none;
-      font-size: 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-      background-color: var(--accent);
-      color: #000;
-    }
-
-    .light-theme .accent-button {
-      color: white;
-    }
-
+  @media (max-width: 768px) {
     .posts {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-      padding: 2rem;
-    }
-
-    .post-card {
-      background-color: #1e293b;
-      color: var(--text);
-      border-radius: 10px;
-      padding: 1rem 1.2rem;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      transition: transform 0.3s;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .post-card h3 {
-      font-weight: bold;
-      font-size: 1.15rem;
-      margin-bottom: 0.6rem;
-      line-height: 1.2;
-    }
-
-    .post-card p {
-      font-size: 0.9rem;
-      line-height: 1.3;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 3;
-      line-clamp: 3;
-    }
-
-    .light-theme .post-card {
-      background-color: #fff;
-      color: var(--text);
-    }
-
-    .post-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .post-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.85rem;
-    }
-
-    .post-actions a {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 1rem;
-      background-color: var(--accent);
-      color: #000;
-      text-decoration: none;
-      border-radius: 8px;
-      font-size: 1rem;
-    }
-
-    .footer-icons a {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      margin-right: 1rem;
-      color: var(--accent);
-    }
-
-    .footer-icons a:hover {
-      color: #60a5fa;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem;
-      font-size: 0.9rem;
-      margin-top: auto;
+      grid-template-columns: 1fr;
+      padding: 1rem;
     }
 
     .blog-read {
-      padding: 3rem 2rem;
-      margin: 0 20rem;
+      margin: 0 1.5rem;
+      padding: 2rem 1rem;
     }
 
-    .blog-read h3 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      text-align: center;
-      margin: 0 8rem;
+    .blog-read h1 {
+      font-size: 1.5rem;
+      margin: 0 1rem;
+    }
+    h4 {
+      font-size: 1.2rem;      
     }
 
     .blog-read p {
-      font-size: 1.1rem;
+      font-size: 1rem;
+      line-height: 1.3;
+    }
+  }
+
+  @media (max-width: 414px) {
+    .blog-read {
+      margin: 0 1.3rem;
+      padding: 1.8rem 1rem;
     }
 
-    h4 {
-      font-size: 1.5rem;
-      margin-top: 2rem;
+    .blog-read h1 {
+      font-size: 1.4rem;
+      margin: 0 0.8rem;
+    }
+  }
+
+  @media (max-width: 390px) {
+    .blog-read {
+      margin: 0 1.2rem;
+      padding: 1.8rem 0.8rem;
     }
 
-    /* Media Queries */
-    @media (max-width: 1028px) {
-      .blog-read {
-        padding: 2.5rem 1.5rem;
-      }
+    .blog-read h1 {
+      font-size: 1.4rem;
+      margin: 0 0.8rem;
+    }
+  }
 
-      .blog-read h3 {
-        margin: 0 3rem;
-        font-size: 1.8rem;
-      }
-
-      header h4 {
-        font-size: 2em;
-      }
+  @media (max-width: 375px) {
+    .blog-read {
+      margin: 0;
+      padding: 1.5rem 0.8rem;
     }
 
-    @media (max-width: 768px) {
-      header h4 {
-        font-size: 1.5rem;
-      }
-      #hamburger {
-        font-size: 1.5rem;
-      }
-      nav {
-        flex-direction: column;
-        width: 100%;
-        display: none;
-        background-color: var(--accent);
-        margin-top: 1rem;
-      }
-
-      nav.show {
-        display: flex;
-      }
-
-      nav a {
-        padding: 0.5rem 0;
-      }
-
-      #theme-toggle {
-        margin-top: 0.5rem;
-      }
-
-      .hamburger {
-        display: block;
-        top: 0.5rem;
-      }
-
-      .posts {
-        grid-template-columns: 1fr;
-        padding: 1rem;
-      }
-
-      .blog-read {
-        margin: 0 1.5rem;
-        padding: 2rem 1rem;
-      }
-
-      .blog-read h3 {
-        font-size: 1.5rem;
-        margin: 0 1rem;
-      }
-      h4 {
-        font-size: 1.2rem;      
-      }
-
-      .blog-read p {
-        font-size: 1rem;
-        line-height: 1.3;
-      }
-
-      header h4 {
-        font-size: 1.5rem;
-      }
+    .blog-read h1 {
+      font-size: 1.3rem;
+      margin: 0 0.6rem;
     }
+  }
 
-    @media (max-width: 414px) {
-      .blog-read {
-        margin: 0 1.3rem;
-        padding: 1.8rem 1rem;
-      }
-
-      .blog-read h3 {
-        font-size: 1.4rem;
-        margin: 0 0.8rem;
-      }
-
-      
-    }
-
-    @media (max-width: 390px) {
-      .blog-read {
-        margin: 0 1.2rem;
-        padding: 1.8rem 0.8rem;
-      }
-
-      .blog-read h3 {
-        font-size: 1.4rem;
-        margin: 0 0.8rem;
-      }
-      
-    }
-
-    @media (max-width: 375px) {
-      .blog-read {
-        margin: 0;
-        padding: 1.5rem 0.8rem;
-      }
-
-      .blog-read h3 {
-        font-size: 1.3rem;
-        margin: 0 0.6rem;
-      }
-
-      
-    }
-    @media (max-width: 360px) {
+  @media (max-width: 360px) {
     .blog-read {
       margin: 0 1.4rem;
-       
     }
     .blog-read p {
       line-height: 1.6;
-
     }
 
-    .blog-read h3 {
+    .blog-read h1 {
       font-size: 1.4rem;
       margin: 0 0.6rem;
     }
-
   }
-  @media (max-width: 420px) {
-      header h4 {
-        font-size: 1.5rem;
-      }
-      #hamburger {
-        font-size: 1.5rem;
-      }
-    }
-
+article a {
+  color: var(--link) !important;
+  /* font-size: 3rem; */
+  
+}
+  
 </style>
+
+
 </head>
-
 <body>
-  <header>
-    <h4>Hadi Reflect</h4>
-    <button class="hamburger" id="hamburger" style="font-weight: bold;">&#9776;</button>
-    <nav id="nav">
-      <a href="/">Home</a>
-      <a href="/#posts">Blog</a>
-      <!-- <a href="/projects/">Projects</a> -->
-      <a href="">Contact</a>
-      <button id="theme-toggle" aria-label="Toggle Theme">
-        <span id="icon"><i class="fas fa-moon"></i></span>
-      </button>
-    </nav>
-  </header>
+{% include 'index.html' %}
 
-  <section class="blog-read">
-    <h3>{{ blog.title }}</h3>
-    <br> <br>
-    <!-- 📅 Date section -->
-<!-- <p class="text-sm text-gray-600 dark:text-gray-400 mb-6"> 
-   Published on 14 April 2025
-</p> -->
-    <p>{{ blog.content|safe }}</p>
-    
-    <style>
-        .post-actions {
-            text-decoration: none;
-            display: flex;
-            justify-content: center; /* Horizontally centers the content */
-            align-items: center; /* Vertically centers the content */
-            margin-top: 2rem; /* Optional: Add some top margin if needed */
-            margin-bottom: 2rem; /* Optional: Add some bottom margin if needed */
-        }
-      </style>
+<section class="blog-read">
+  <h1 class="blog-title">{{ blog.title }}</h1>
 
-      <!-- <h4>Related Post</h4> -->
+  <article class="blog-content">
+    {{ blog.content|safe }}
+  </article>
 
-      <!-- <div class="posts">
-        {% for post in related_blogs|slice:":5" %}
-            <a href="{% url 'blog_detail' blog.slug %}">{{ post.title }}</a><br>
-        {% endfor %} -->
-      
-      <br> <br>
-      <div class="post-actions" style="text-decoration: none; text-align: center; width: 100%; margin: 0 auto;">
-        <a href="{% url 'blog_list' %}">
-          <i class="fas fa-home"></i> Go to Home Page    
-        </a> 
-      <!-- </div> -->
-      
-      
-  </section>
+  <!-- <div class="post-actions">
+    <a href="{% url 'blog_list' %}" class="back-home">
+      <i class="fas fa-home"></i> Go to Home Page
+    </a>
+  </div>
+</section> -->
+<div class="post-actions" style="display: flex; justify-content: center; align-items: center; text-align: center;">
+    <a href="{% url 'blog_list' %}" class="back-home">
+      <i class="fas fa-home"></i> Go to Home Page
+    </a>
+</div>
 
-  <footer>
-    &copy; 2025 Hadi Reflect | Designed with purpose and passion.
-  </footer>
+<footer>
+  &copy; 2025 Hadi Reflect | Designed with purpose and passion.
+</footer>
 
   <script>
    
