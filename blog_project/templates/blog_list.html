@@ -313,16 +313,16 @@ html {
 
 /* Pagination : */
 
-.pagination {
+/* .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  margin: 3rem 0 2rem 0; /* extra top margin for spacing below posts */
+  margin: 3rem 0 2rem 0;
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
   color: var(--accent);
-  flex-wrap: wrap; /* allow wrapping on smaller screens */
+  flex-wrap: wrap;  
 }
 
 .pagination a {
@@ -332,7 +332,7 @@ html {
   text-decoration: none;
   color: var(--accent);
   transition: background-color 0.3s, color 0.3s;
-  white-space: nowrap; /* prevent breaking inside page numbers */
+  white-space: nowrap; 
 }
 
 .pagination a:hover {
@@ -347,7 +347,7 @@ html {
   white-space: nowrap;
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 480px) {
   .pagination {
     gap: 0.5rem;
@@ -358,6 +358,83 @@ html {
   .pagination span {
     padding: 0.4rem 0.8rem;
     font-size: 0.9rem;
+  }
+} */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(0.5rem, 2vw, 1rem); /* smooth spacing for all sizes */
+  margin: clamp(1.5rem, 4vw, 3rem) 0 clamp(1rem, 2vw, 2rem) 0;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  color: var(--accent);
+  flex-wrap: wrap;
+}
+
+.pagination a,
+.pagination span {
+  padding: clamp(0.4rem, 1vw, 0.6rem) clamp(0.8rem, 2vw, 1.2rem);
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
+  border-radius: 8px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.2s ease;
+}
+
+/* Links */
+.pagination a {
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  background-color: transparent;
+}
+
+.pagination a:hover {
+  background-color: var(--accent);
+  color: var(--bg);
+  transform: translateY(-1px);
+}
+
+/* Active page */
+.pagination a.active {
+  background-color: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+  font-weight: 700;
+}
+
+/* Span (disabled or separator) */
+.pagination span {
+  color: var(--accent);
+  opacity: 0.7;
+}
+
+/* Light theme overrides */
+.light-theme .pagination a {
+  border-color: var(--link);
+  color: var(--link);
+}
+
+.light-theme .pagination a:hover,
+.light-theme .pagination a.active {
+  background-color: var(--link);
+  color: var(--text);
+}
+
+.light-theme .pagination span {
+  color: var(--link);
+}
+
+/* Mobile fine-tuning */
+@media (max-width: 480px) {
+  .pagination {
+    gap: 0.4rem;
+  }
+
+  .pagination a,
+  .pagination span {
+    border-radius: 6px;
   }
 }
 
