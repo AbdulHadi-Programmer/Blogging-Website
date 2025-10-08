@@ -18,6 +18,7 @@ from django.core.paginator import Paginator
 from django.core.paginator import Paginator
 from django.db.models import Q
 
+"""
 def blog_list(request):
     query = request.GET.get('q', '')  # capture search input (if any)
     category = request.GET.get('category', '').strip()  # category filter 
@@ -39,7 +40,7 @@ def blog_list(request):
         except:
             # If category is a CharField
             blogs = blogs.filter(category__iexact=category)
-
+        
 
     # Order and paginate
     blogs = blogs.order_by('-created_at')
@@ -48,6 +49,41 @@ def blog_list(request):
     page_obj = paginator.get_page(page_number)
 
     # Pass query back to template for preserving search term
+    return render(request, 'blog_list.html', {
+        'blogs': blogs,
+        'page_obj': page_obj,
+        'query': query,
+        'category': category,
+    })
+"""
+from django.db.models import Q
+from django.core.paginator import Paginator
+from django.shortcuts import render
+from .models import BlogPost
+
+def blog_list(request):
+    query = request.GET.get('q', '').strip()
+    category = request.GET.get('category', '').strip()
+
+    blogs = BlogPost.objects.filter(is_published=True)
+
+    # Search
+    if query:
+        blogs = blogs.filter(
+            Q(title__icontains=query) |
+            Q(summary__icontains=query)
+        )
+
+    # Category filter (only if not "all")
+    if category and category.lower() != 'all':
+        blogs = blogs.filter(category__name__iexact=category)
+
+    # Order and paginate
+    blogs = blogs.order_by('-created_at')
+    paginator = Paginator(blogs, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     return render(request, 'blog_list.html', {
         'page_obj': page_obj,
         'query': query,

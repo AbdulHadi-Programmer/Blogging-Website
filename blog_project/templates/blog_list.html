@@ -313,54 +313,6 @@ html {
 
 /* Pagination : */
 
-/* .pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  margin: 3rem 0 2rem 0;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-  color: var(--accent);
-  flex-wrap: wrap;  
-}
-
-.pagination a {
-  padding: 0.5rem 1rem;
-  border: 2px solid var(--accent);
-  border-radius: 8px;
-  text-decoration: none;
-  color: var(--accent);
-  transition: background-color 0.3s, color 0.3s;
-  white-space: nowrap; 
-}
-
-.pagination a:hover {
-  background-color: var(--accent);
-  color: #000;
-}
-
-.pagination span {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  color: var(--accent);
-  white-space: nowrap;
-}
-
-
-@media (max-width: 480px) {
-  .pagination {
-    gap: 0.5rem;
-    margin: 2rem 0 1.5rem 0;
-  }
-
-  .pagination a,
-  .pagination span {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.9rem;
-  }
-} */
-
 .pagination {
   display: flex;
   justify-content: center;
@@ -410,21 +362,6 @@ html {
   opacity: 0.7;
 }
 
-/* Light theme overrides */
-/* .light-theme .pagination a {
-  border-color: var(--link);
-  color: var(--link);
-}
-
-.light-theme .pagination a:hover,
-.light-theme .pagination a.active {
-  background-color: var(--link);
-  color: var(--text);
-}
-
-.light-theme .pagination span {
-  color: var(--link);
-} */
 
 /* Mobile fine-tuning */
 @media (max-width: 480px) {
@@ -536,7 +473,6 @@ html {
   width: 90%;
   max-width: 900px;
   background-color: var(--bg);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
   transition: background 0.3s, box-shadow 0.3s;
   text-align: center;
 }
@@ -576,17 +512,18 @@ html {
   color: #fff;
   border-color: var(--accent);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+  
 }
 
-/* Light Theme */
+/* Light Theme 
 .light-theme .filter-section {
   background-color: #ffffff;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
-}
+} */
 
 .light-theme .filter-btn {
-  background-color: #f9f9f9;
+  /* background-color: #f9f9f9; */
+  background-color: #ffffff;;
   border: 1px solid #e5e7eb;
   color: #111;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
@@ -632,9 +569,7 @@ html {
 
 <body>
 
-
   {% include 'index.html' %}
-
 
   <section class="hero">
     <h2 >Hi, I'm Abdul Hadi Salman</h2>
@@ -682,28 +617,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   buttons.forEach(btn => {
     btn.addEventListener("click", () => {
-      const isActive = btn.classList.contains("active");
       const isAll = btn.dataset.filter.toLowerCase() === "all";
 
       // Toggle logic
       if (isAll) {
         buttons.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-        applyFilters([]); // No specific categories
+        applyFilters([]); // Show all
       } else {
-        btn.classList.toggle("active");
-        document.querySelector('[data-filter="all"]').classList.remove("active");
-
-        const activeFilters = [...buttons]
-          .filter(b => b.classList.contains("active") && b.dataset.filter.toLowerCase() !== "all")
-          .map(b => b.dataset.filter);
-
-        if (activeFilters.length === 0) {
-          document.querySelector('[data-filter="all"]').classList.add("active");
-          applyFilters([]);
-        } else {
-          applyFilters(activeFilters);
-        }
+        // Make only one active at a time
+        buttons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        applyFilters([btn.dataset.filter]);
       }
     });
   });
@@ -711,42 +636,37 @@ document.addEventListener("DOMContentLoaded", () => {
   function applyFilters(filters) {
     const url = new URL(window.location.href);
     const searchQuery = url.searchParams.get('q') || '';
-
-    // Clear pagination
-    url.searchParams.delete('page');
+    url.searchParams.delete('page'); // reset pagination
 
     if (filters.length === 0 || filters.includes('All')) {
       url.searchParams.delete('category');
     } else {
-      // Only one category supported at a time
       url.searchParams.set('category', filters[0]);
     }
 
-    if (searchQuery) {
-      url.searchParams.set('q', searchQuery);
-    }
+    if (searchQuery) url.searchParams.set('q', searchQuery);
 
     window.location.href = url.toString();
   }
+
+  // Keep active state after reload
+  const currentCategory = new URLSearchParams(window.location.search).get('category');
+  if (currentCategory && currentCategory.toLowerCase() !== 'all') {
+    const decoded = decodeURIComponent(currentCategory).trim().toLowerCase();
+    document.querySelector('[data-filter="all"]').classList.remove("active");
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      if (btn.dataset.filter.trim().toLowerCase() === decoded) {
+        btn.classList.add("active");
+      }
+    });
+  }
 });
-// Keep active state after reload
-const currentCategory = new URLSearchParams(window.location.search).get('category');
-if (currentCategory && currentCategory.toLowerCase() !== 'all') {
-  document.querySelector('[data-filter="all"]').classList.remove("active");
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    if (btn.dataset.filter.toLowerCase() === currentCategory.toLowerCase()) {
-      btn.classList.add('active');
-    }
-  });
-}
-
 </script>
-
-    
-  <section class=" posts">
-
-  {% for blog in page_obj %}
-    
+   
+{% comment %}
+<!-- This is the old Post Code but it is perfectly working that why i didn't remove it  -->
+  <section class=" posts">  
+    {% for blog in page_obj %}
     <div class="post-card">
         <h3>{{ blog.title }}</h3>
         <p>{{ blog.summary|safe|truncatewords:25|default:" " }}</p>
@@ -756,10 +676,29 @@ if (currentCategory && currentCategory.toLowerCase() !== 'all') {
           </a>
         </div>
       </div>
-      
-  {% endfor %}
+      {% endfor %}
+  </section>
+{% endcomment %}
 
+<section class="posts">  
+  {% if page_obj.object_list %}
+    {% for blog in page_obj %}
+      <div class="post-card">
+        <h3>{{ blog.title }}</h3>
+        <p>{{ blog.summary|safe|truncatewords:25|default:" " }}</p>
+        <div class="post-actions footer-icons" style="font-weight: bold;">
+          <a href="{% url 'blog_detail' blog.slug %}">Read More →</a>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="no-posts-message">
+      <i class="fas fa-folder-open"></i>
+      <p>No blog posts found in this category.</p>
+    </div>
+  {% endif %}
 </section>
+
 
   <div class="pagination">
   {% if page_obj.has_previous %}
