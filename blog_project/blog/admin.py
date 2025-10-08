@@ -3,8 +3,9 @@ from .models import *
 # Register your models here.
 
 class BlogPostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'summary', 'is_published')
-    list_editable = ('is_published', )
+    list_display = ('title', 'summary', 'is_published', 'category')
+    list_editable = ('is_published', 'category')
+    # list_editable = ('category', )
 
 admin.site.register(BlogPost, BlogPostAdmin)
 

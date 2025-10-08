@@ -437,6 +437,195 @@ html {
     border-radius: 6px;
   }
 }
+/* ---------------------------Search--------------------------------------------- */
+
+/* Search Bar Styling */
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem auto;
+  width: 90%;
+  max-width: 600px;
+}
+
+.search-container form {
+  display: flex;
+  width: 100%;
+  background-color: var(--bg);
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  /* some property for dark mode */
+  background-color: rgba(30, 41, 59, 0.85); 
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.search-container input[type="text"] {
+  flex: 1;
+  padding: 0.8rem 1.2rem;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  background-color: transparent;
+  color: var(--text);
+}
+
+.search-container input[type="text"]::placeholder {
+  color: #9ca3af;
+}
+
+.search-container button {
+  background-color: var(--accent);
+  border: none;
+  color: #fff;
+  padding: 0.8rem 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.search-container button:hover {
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
+/* Theme Adjustments */
+.light-theme .search-container form {
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.light-theme .search-container input[type="text"] {
+  color: #111;
+}
+
+.light-theme .search-container input[type="text"]::placeholder {
+  color: #666;
+}
+
+
+/* Responsive */
+@media (max-width: 600px) {
+  .search-container {
+    width: 75%;
+  }
+
+  .search-container input[type="text"] {
+    font-size: 0.9rem;
+  }
+
+  .search-container button {
+    padding: 0.6rem 1rem;
+  }
+} 
+
+
+/* Filter Section Styling */
+/* Filter Section */
+/* Filter Section */
+.filter-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1.5rem auto 2rem;
+  padding: 1rem;
+  border-radius: 25px;
+  width: 90%;
+  max-width: 900px;
+  background-color: var(--bg);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transition: background 0.3s, box-shadow 0.3s;
+  text-align: center;
+}
+
+/* Category Buttons */
+.filter-categories {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.filter-categories::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-btn {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50px;
+  padding: 0.55rem 1.3rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  color: var(--text);
+  white-space: nowrap;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(6px);
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background-color: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+}
+
+/* Light Theme */
+.light-theme .filter-section {
+  background-color: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.light-theme .filter-btn {
+  background-color: #f9f9f9;
+  border: 1px solid #e5e7eb;
+  color: #111;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
+}
+
+.light-theme .filter-btn:hover,
+.light-theme .filter-btn.active {
+  background-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .filter-section {
+    padding: 0.8rem;
+    width: 95%;
+  }
+
+  .filter-btn {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .filter-section {
+    padding: 0.7rem;
+    border-radius: 18px;
+  }
+
+  .filter-btn {
+    font-size: 0.85rem;
+    padding: 0.45rem 0.9rem;
+  }
+}
+
+
 
 </style>
 
@@ -459,7 +648,100 @@ html {
     <h2 style=" margin-bottom: 0.5rem;">Latest Blogs</h2>
     <p>Fresh thoughts, insights & dev journeys ✨</p>
   </section>
-  
+
+  <!-- Search Bar -->
+<div class="search-container">
+  <form method="get" action="{% url 'blog_list' %}">
+    <input type="text" name="q" placeholder="Search blogs..." value="{{ request.GET.q|default:'' }}">
+    <button type="submit"><i class="fas fa-search"></i></button>
+  </form>
+</div>
+
+<!-- ======================================================
+   FILTER SECTION (paste after closing your search <form>)
+   ========================================================-->
+<div class="filter-section">
+  <div class="filter-categories">
+    <button type="button" class="filter-btn active" data-filter="all">All</button>
+    <button type="button" class="filter-btn" data-filter="Problem Solving">Problem Solving</button>
+    <button type="button" class="filter-btn" data-filter="Community & Collaboration">Community & Collaboration</button>
+    <button type="button" class="filter-btn" data-filter="Tech & Trends">Tech & Trends</button>
+    <button type="button" class="filter-btn" data-filter="Projects & Builds">Projects & Builds</button>
+    <button type="button" class="filter-btn" data-filter="Learning & Resources">Learning & Resources</button>
+    <button type="button" class="filter-btn" data-filter="Career & Motivation">Career & Motivation</button>
+    <button type="button" class="filter-btn" data-filter="Coding & Programming">Coding & Programming</button>
+    <button type="button" class="filter-btn" data-filter="Developer Journey">Developer Journey</button>
+  </div>
+</div>
+
+
+<!-- Add this script right before </body> (or in your base JS file) -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const buttons = document.querySelectorAll(".filter-btn");
+
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const isActive = btn.classList.contains("active");
+      const isAll = btn.dataset.filter.toLowerCase() === "all";
+
+      // Toggle logic
+      if (isAll) {
+        buttons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        applyFilters([]); // No specific categories
+      } else {
+        btn.classList.toggle("active");
+        document.querySelector('[data-filter="all"]').classList.remove("active");
+
+        const activeFilters = [...buttons]
+          .filter(b => b.classList.contains("active") && b.dataset.filter.toLowerCase() !== "all")
+          .map(b => b.dataset.filter);
+
+        if (activeFilters.length === 0) {
+          document.querySelector('[data-filter="all"]').classList.add("active");
+          applyFilters([]);
+        } else {
+          applyFilters(activeFilters);
+        }
+      }
+    });
+  });
+
+  function applyFilters(filters) {
+    const url = new URL(window.location.href);
+    const searchQuery = url.searchParams.get('q') || '';
+
+    // Clear pagination
+    url.searchParams.delete('page');
+
+    if (filters.length === 0 || filters.includes('All')) {
+      url.searchParams.delete('category');
+    } else {
+      // Only one category supported at a time
+      url.searchParams.set('category', filters[0]);
+    }
+
+    if (searchQuery) {
+      url.searchParams.set('q', searchQuery);
+    }
+
+    window.location.href = url.toString();
+  }
+});
+// Keep active state after reload
+const currentCategory = new URLSearchParams(window.location.search).get('category');
+if (currentCategory && currentCategory.toLowerCase() !== 'all') {
+  document.querySelector('[data-filter="all"]').classList.remove("active");
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    if (btn.dataset.filter.toLowerCase() === currentCategory.toLowerCase()) {
+      btn.classList.add('active');
+    }
+  });
+}
+
+</script>
+
     
   <section class=" posts">
 
@@ -782,6 +1064,8 @@ html {
       nav.classList.toggle('show');
     });
 
+  
+    
   </script>
 </body>
 

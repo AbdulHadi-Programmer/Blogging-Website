@@ -5,16 +5,54 @@ from .forms import BlogPostForm
 from django.core.paginator import Paginator
 
 
-# View All Blog list :
-def blog_list(request):
-    blogs = BlogPost.objects.filter(is_published=True).order_by('-created_at')
-    paginator = Paginator(blogs, 6)
+# # View All Blog list :
+# def blog_list(request):
+#     blogs = BlogPost.objects.filter(is_published=True).order_by('-created_at')
+#     paginator = Paginator(blogs, 6)
 
+#     page_number = request.GET.get('page')
+#     page_obj = paginator.get_page(page_number)
+
+#     # return render(request, 'blog_list.html', {'blogs': blogs})
+#     return render(request, 'blog_list.html', {'page_obj': page_obj})
+from django.core.paginator import Paginator
+from django.db.models import Q
+
+def blog_list(request):
+    query = request.GET.get('q', '')  # capture search input (if any)
+    category = request.GET.get('category', '').strip()  # category filter 
+
+    # Base queryset
+    blogs = BlogPost.objects.filter(is_published=True)
+
+    # Apply search filter if query is present
+    if query:
+        blogs = blogs.filter(
+            Q(title__icontains=query) |
+            Q(summary__icontains=query)
+        )
+    # Apply category filter (if not "all")
+    if category and category.lower() != 'all':
+        try:
+            # If category is a ForeignKey to Category model
+            blogs = blogs.filter(category__name__iexact=category)
+        except:
+            # If category is a CharField
+            blogs = blogs.filter(category__iexact=category)
+
+
+    # Order and paginate
+    blogs = blogs.order_by('-created_at')
+    paginator = Paginator(blogs, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    # return render(request, 'blog_list.html', {'blogs': blogs})
-    return render(request, 'blog_list.html', {'page_obj': page_obj})
+    # Pass query back to template for preserving search term
+    return render(request, 'blog_list.html', {
+        'page_obj': page_obj,
+        'query': query,
+        'category': category,
+    })
 
 
 def recent_blog(request):
