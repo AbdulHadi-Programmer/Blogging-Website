@@ -6,3 +6,12 @@ Changes to make in Hadi Reflect:
 2. Add a time scheduler in blog model field to post blog when the time is greater
 3. Show True or False of is_published field in admin page
 db.sqlite3*
+blog_project/db.sqlite3
+
+
+# This below commit is must to recover database from this commit 
+commit: 2454634f
+# because when i pull this commit to pythonanywhere then i remove db at that phase 
+hadireflect is login in wise little pythonanywhere 
+
+
