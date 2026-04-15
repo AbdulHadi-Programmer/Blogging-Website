@@ -1,341 +1,468 @@
+{% extends 'index.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>{{ blog.title }}</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Dancing+Script&family=Great+Vibes&family=Pacifico&family=Satisfy&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cookie&family=Courgette&family=Lobster&family=Mr+Dafoe&family=Sacramento&family=Yellowtail&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/jpeg" href="{% static 'logo_new_.png' %}">
 
-  <style>
-  :root {
-    --bg: #0f172a;
-    --text: #f1f5f9;
-    --accent: #38bdf8;
-  }
-
-  .light-theme {
-    --bg: #e2e8f0;
-    --text: #0f172a;
-    --accent: #0ea5e9;
-  }
-
-  body {
-    background-color: var(--bg);
-    color: var(--text);
-    /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    transition: all 0.3s ease-in-out;
-  }
-
-  .hero {
-    text-align: center;
-    padding: 4rem 2rem;
-  }
-
-  .hero h2 {
-    font-size: 2.5rem;
-  }
-
-  .hero p {
-    font-size: 1.2rem;
-    margin-top: 1rem;
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .accent-button {
-    margin-top: 2rem;
-    padding: 0.8rem 2rem;
-    border: none;
-    font-size: 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    background-color: var(--accent);
-    color: #000;
-  }
-
-  .light-theme .accent-button {
-    color: white;
-  }
-
-  .posts {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-    padding: 2rem;
-  }
-
-  .post-card {
-    background-color: #1e293b;
-    color: var(--text);
-    border-radius: 10px;
-    padding: 1rem 1.2rem;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    transition: transform 0.3s;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .post-card h3 {
-    font-weight: bold;
-    font-size: 1.15rem;
-    margin-bottom: 0.6rem;
-    line-height: 1.2;
-  }
-
-  .post-card p {
-    font-size: 0.9rem;
-    line-height: 1.3;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-  }
-
-  .light-theme .post-card {
-    background-color: #fff;
-    color: var(--text);
-  }
-
-  .post-card:hover {
-    transform: translateY(-5px);
-  }
-
-  .post-actions {
-    margin-top: 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.85rem;
-  }
-
-  .post-actions a {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    background-color: var(--accent);
-    color: #000;
-    text-decoration: none;
-    border-radius: 8px;
-    font-size: 1rem;
-  }
-
-  .footer-icons a {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    margin-right: 1rem;
-    color: var(--accent);
-  }
-
-  .footer-icons a:hover {
-    color: #60a5fa;
-  }
-
-  footer {
-    margin-bottom: 5px;
-    text-align: center; 
-    padding: 2rem; 
-    font-size: 0.9rem;
-    margin-top: auto;
-  }
-
-  .blog-read {
-    padding: 3rem 2rem;
-    margin: 0 20rem;
-  }
-
-  .blog-read h1 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    text-align: center;
-    margin: 0 8rem;
-  }
-
-  .blog-read p {
-    font-size: 1.1rem;
-  }
-
-  h4 {
-    font-size: 1.5rem;
-    margin-top: 2rem;
-  }
-
-  /* Media Queries */
-  @media (max-width: 1028px) {
-    .blog-read {
-      padding: 2.5rem 1.5rem;
-    }
-
-    .blog-read h1 {
-      margin: 0 3rem;
-      font-size: 1.8rem;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .posts {
-      grid-template-columns: 1fr;
-      padding: 1rem;
-    }
-
-    .blog-read {
-      margin: 0 1.5rem;
-      padding: 2rem 1rem;
-    }
-
-    .blog-read h1 {
-      font-size: 1.5rem;
-      margin: 0 1rem;
-    }
-    h4 {
-      font-size: 1.2rem;      
-    }
-
-    .blog-read p {
-      font-size: 1rem;
-      line-height: 1.3;
-    }
-  }
-
-  @media (max-width: 414px) {
-    .blog-read {
-      margin: 0 1.3rem;
-      padding: 1.8rem 1rem;
-    }
-
-    .blog-read h1 {
-      font-size: 1.5rem;
-      margin: 0 0.8rem;
-    }
-  }
-
-  @media (max-width: 390px) {
-    .blog-read {
-      margin: 0 1.2rem;
-      padding: 1.8rem 0.8rem;
-    }
-
-    .blog-read h1 {
-      font-size: 1.7rem;
-      margin: 0 0.8rem;
-    }
-  }
-
-  @media (max-width: 375px) {
-    .blog-read {
-      margin: 0;
-      padding: 1.5rem 0.8rem;
-    }
-
-    .blog-read h1 {
-      font-size: 1.6rem;
-      margin: 0 0.6rem;
-    }
-    .blog-read p {
-      font-size: 1rem;
-    }
-  }
-  
-  @media (max-width: 360px) {
-    .blog-read {
-      margin: 0 1.4rem;
-    }
-    .blog-read p {
-      font-size: 1rem;
-      line-height: 1.6;
-    }
-    
-    .blog-read h1 {
-      font-size: 1.4rem;
-      margin: 0 0.6rem;
-    }
-  }
-article a {
-  color: var(--link) !important;
-  /* font-size: 3rem; */
-  
+{% block content %}
+<style>
+/* Blog Detail Page Specific Styles */
+.blog-detail {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3rem 2rem 4rem;
 }
 
+.blog-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.blog-category {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--glow);
+  border: 1px solid var(--border-a);
+  color: var(--accent);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.35rem 1rem;
+  border-radius: 100px;
+  margin-bottom: 1.5rem;
+}
+
+.blog-category i {
+  font-size: 0.7rem;
+}
+
+.blog-detail h1 {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: var(--text);
+}
+
+.blog-meta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text2);
+}
+
+.meta-item i {
+  color: var(--accent);
+  font-size: 0.85rem;
+}
+
+.blog-featured-image {
+  margin: 2rem 0 2.5rem;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.blog-featured-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.blog-content {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--text);
+}
+
+.blog-content h2 {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 2rem 0 1rem;
+  color: var(--text);
+}
+
+.blog-content h3 {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 1.5rem 0 1rem;
+  color: var(--text);
+}
+
+.blog-content p {
+  margin-bottom: 1.25rem;
+  color: var(--text2);
+}
+
+.blog-content a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.blog-content a:hover {
+  border-bottom-color: var(--accent);
+}
+
+.blog-content ul, 
+.blog-content ol {
+  margin: 1rem 0 1.5rem 1.5rem;
+  color: var(--text2);
+}
+
+.blog-content li {
+  margin: 0.5rem 0;
+}
+
+.blog-content blockquote {
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  border-left: 3px solid var(--accent);
+  background: var(--glow);
+  border-radius: 8px;
+  font-style: italic;
+  color: var(--text);
+}
+
+.blog-content code {
+  background: var(--card);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+
+.blog-content pre {
+  background: var(--card);
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border: 1px solid var(--border);
+}
+
+.blog-content pre code {
+  background: none;
+  padding: 0;
+  color: var(--text);
+}
+
+.blog-footer {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.back-home-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.back-home-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px var(--glow);
+}
+
+/* Share Section */
+.share-section {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.share-section p {
+  margin-bottom: 1rem;
+  color: var(--text2);
+  font-size: 0.9rem;
+}
+
+.share-links {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.share-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+  border: 1px solid var(--border);
+  color: var(--text2);
+}
+
+.share-link:hover {
+  border-color: var(--border-a);
+  color: var(--accent);
+  background: var(--glow);
+  transform: translateY(-2px);
+}
+
+.share-link i {
+  font-size: 0.9rem;
+}
+
+/* Table of Contents */
+.table-of-contents {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+}
+
+.table-of-contents h4 {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--accent);
+}
+
+.table-of-contents ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.table-of-contents li {
+  margin: 0.5rem 0;
+}
+
+.table-of-contents a {
+  color: var(--text2);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.table-of-contents a:hover {
+  color: var(--accent);
+}
+
+/* Author Bio */
+.author-bio {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.author-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent) 0%, #60a5fa 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.author-info h4 {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: var(--text);
+}
+
+.author-info p {
+  font-size: 0.85rem;
+  color: var(--text2);
+  margin: 0;
+}
+
+/* Comments Section (if needed) */
+.comments-section {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.comments-section h4 {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .blog-detail {
+    padding: 2rem 1.5rem;
+  }
+  
+  .blog-meta {
+    gap: 1rem;
+  }
+  
+  .meta-item {
+    font-size: 0.75rem;
+  }
+  
+  .blog-content {
+    font-size: 0.95rem;
+  }
+  
+  .author-bio {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .blog-detail {
+    padding: 1.5rem 1rem;
+  }
+  
+  .blog-header {
+    margin-bottom: 2rem;
+  }
+  
+  .share-links {
+    gap: 0.5rem;
+  }
+  
+  .share-link {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+  }
+}
 </style>
-</head>
-<body>
 
-
-{% include 'index.html' %}
-
-<section class="blog-read">
-  <h1 class="blog-title">{{ blog.title }}</h1>
-
+<section class="blog-detail">
+  <div class="blog-header">
+    {% if blog.category %}
+    <div class="blog-category">
+      <i class="fas fa-tag"></i> {{ blog.category }}
+    </div>
+    {% endif %}
+    
+    <h1>{{ blog.title }}</h1>
+    
+    <div class="blog-meta">
+      {% if blog.author %}
+      <span class="meta-item">
+        <i class="fas fa-user"></i> {{ blog.author }}
+      </span>
+      {% endif %}
+      
+      {% if blog.created_at %}
+      <span class="meta-item">
+        <i class="fas fa-calendar-alt"></i> {{ blog.created_at|date:"F d, Y" }}
+      </span>
+      {% endif %}
+      
+      {% if blog.reading_time %}
+      <span class="meta-item">
+        <i class="fas fa-clock"></i> {{ blog.reading_time }} min read
+      </span>
+      {% endif %}
+    </div>
+  </div>
+  
+  {% if blog.featured_image %}
+  <div class="blog-featured-image">
+    <img src="{{ blog.featured_image.url }}" alt="{{ blog.title }}">
+  </div>
+  {% endif %}
+  
   <article class="blog-content">
     {{ blog.content|safe }}
   </article>
+  
+    
+  <!-- Author Bio -->
+  <div class="author-bio">
+    <div class="author-avatar">
+      <i class="fab fa-python"></i>
+    </div>
+    <div class="author-info">
+      <h4>Abdul Hadi Salman</h4>
+      <p>Python Developer & Tech Explorer sharing real-world insights about coding, Django, and the developer journey.</p>
+    </div>
+  </div>
+  
 
-  <!-- <div class="post-actions">
-    <a href="{% url 'blog_list' %}" class="back-home">
-      <i class="fas fa-home"></i> Go to Home Page
+  
+  <div class="blog-footer">
+    <a href="{% url 'blog_list' %}" class="back-home-btn">
+      <i class="fas fa-arrow-left"></i> Back to Blog List
     </a>
   </div>
-</section> -->
-<div class="post-actions" style="display: flex; justify-content: center; align-items: center; text-align: center;">
-    <a href="{% url 'blog_list' %}" class="back-home">
-      <i class="fas fa-home"></i> Go to Home Page
-    </a>
-</div>
+</section>
 
-<footer>
-  &copy; 2025 Hadi Reflect | Designed with purpose and passion.
-</footer>
-
-  <script>
-   
-
-const toggleBtn = document.getElementById('theme-toggle');
-const iconSpan = document.getElementById('icon');
-const hamburger = document.getElementById('hamburger');
-const nav = document.getElementById('nav');
-
-// Check localStorage for saved theme
-window.onload = () => {
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) {
-    document.body.classList.add(savedTheme);
-    const isLight = savedTheme === 'light-theme';
-  iconSpan.innerHTML = isLight ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-  
-} else {
-    // Default theme is dark if no theme is stored
-    document.body.classList.add('dark-theme');
-    iconSpan.textContent = '<i class="fas fa-moon"></i>';
-  }
-};
-
-// Toggle theme and save to localStorage
-toggleBtn.addEventListener('click', () => {
-  document.body.classList.toggle('light-theme');
-  const isLight = document.body.classList.contains('light-theme');
-  iconSpan.innerHTML = isLight ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';;
-  // Save the theme in localStorage
-  localStorage.setItem('theme', isLight ? 'light-theme' : 'dark-theme');
+<!-- Optional: JavaScript for smooth scrolling to table of contents -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
 });
-
-// Hamburger menu toggle
-hamburger.addEventListener('click', () => {
-  nav.classList.toggle('show');
-});
-  </script>
-</body>
-</html>
+</script>
+{% endblock %}

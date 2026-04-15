@@ -1,6 +1,666 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hadi Reflect</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Bricolage+Grotesque:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/jpeg" href="{% static 'logo_new_.png' %}">
+  <style>
+  /* ══ TOKENS ══ */
+  :root{
+    --bg:#090f1e;--bg2:#0c1424;
+    --card:#111928;--card-h:#16212f;
+    --text:#dde6f0;--text2:#b0c0d0;
+    --muted:#5d7a96;
+    --accent:#38bdf8;
+    --glow:rgba(56,189,248,0.1);
+    --glow2:rgba(56,189,248,0.05);
+    --border:rgba(255,255,255,0.065);
+    --border-a:rgba(56,189,248,0.22);
+    --r:12px;
+  }
+  .lt{
+    --bg:#f7f3ed;--bg2:#ede8e0;
+    --card:#ffffff;--card-h:#faf5ef;
+    --text:#1a1208;--text2:#4a3728;
+    --muted:#8a7060;
+    --accent:#0284c7;
+    --glow:rgba(2,132,199,0.09);
+    --glow2:rgba(2,132,199,0.04);
+    --border:rgba(0,0,0,0.08);
+    --border-a:rgba(2,132,199,0.22);
+  }
+
+  /* ══ RESET ══ */
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:'DM Sans',sans-serif;
+    font-size:15px;line-height:1.7;
+    overflow-x:hidden;-webkit-font-smoothing:antialiased;
+    transition:background 0.3s,color 0.3s;
+  }
+  body::before{
+    content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:radial-gradient(var(--glow2) 1px,transparent 1px);
+    background-size:28px 28px;
+  }
+
+  /* ══ HERO ══ */
+  .hero-section{
+    position:relative;z-index:1;
+    max-width:1100px;margin:0 auto;
+    padding:4.5rem 2.5rem 3.5rem;
+    display:grid;grid-template-columns:1.05fr 1fr;
+    gap:3rem;align-items:center;
+  }
+  .h-tag{
+    display:inline-flex;align-items:center;gap:0.45rem;
+    background:var(--glow);border:1px solid var(--border-a);
+    color:var(--accent);font-size:0.68rem;font-weight:600;
+    letter-spacing:0.1em;text-transform:uppercase;
+    padding:0.26rem 0.85rem;border-radius:100px;margin-bottom:1.3rem;
+  }
+  .h-tag::before{
+    content:'';width:6px;height:6px;border-radius:50%;
+    background:var(--accent);flex-shrink:0;
+    animation:blink 2s ease-in-out infinite;
+  }
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.25}}
+  .hero-section h1{
+    font-family:'Bricolage Grotesque',sans-serif;
+    font-size:clamp(2rem,3.6vw,2.9rem);
+    font-weight:800;line-height:1.15;letter-spacing:-0.03em;
+    margin-bottom:1.1rem;
+  }
+  .hero-section h1 em{
+    font-style:normal;color:var(--accent);
+    text-shadow:0 0 30px var(--glow);
+  }
+  .hero-desc{
+    color:var(--text2);font-size:0.9rem;line-height:1.85;
+    margin-bottom:2rem;max-width:420px;
+  }
+  .hero-btns{display:flex;gap:0.65rem;flex-wrap:wrap}
+  .btn-primary{
+    display:inline-flex;align-items:center;gap:0.4rem;
+    background:var(--accent);color:#fff;
+    font-family:'Bricolage Grotesque',sans-serif;
+    font-weight:700;font-size:0.82rem;
+    padding:0.62rem 1.35rem;border-radius:8px;
+    text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;
+    border:none;cursor:pointer;
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px var(--glow)}
+  .btn-ghost{
+    display:inline-flex;align-items:center;gap:0.4rem;
+    border:1px solid var(--border-a);color:var(--muted);
+    font-size:0.82rem;font-weight:500;
+    padding:0.62rem 1.1rem;border-radius:8px;
+    text-decoration:none;transition:all 0.2s;
+  }
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent);background:var(--glow)}
+
+  /* hero preview card */
+  .hero-preview{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:16px;overflow:hidden;transition:border-color 0.3s;
+  }
+  .hero-preview:hover{border-color:var(--border-a)}
+  .hp-top{
+    background:var(--glow);padding:0.8rem 1.1rem 0.7rem;
+    border-bottom:1px solid var(--border);
+    display:flex;align-items:center;gap:0.5rem;
+  }
+  .hp-dots{display:flex;gap:5px}
+  .hp-dots span{width:9px;height:9px;border-radius:50%;display:block}
+  .hp-dots span:nth-child(1){background:#ff5f57}
+  .hp-dots span:nth-child(2){background:#febc2e}
+  .hp-dots span:nth-child(3){background:#28c840}
+  .hp-label{font-size:0.65rem;color:var(--muted);margin-left:auto;font-family:monospace}
+  .hp-body{padding:1.2rem}
+  .hp-tag{font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:0.45rem}
+  .hp-title{
+    font-family:'Bricolage Grotesque',sans-serif;
+    font-size:0.95rem;font-weight:700;line-height:1.3;
+    letter-spacing:-0.01em;margin-bottom:0.6rem;
+  }
+  .hp-excerpt{
+    font-size:0.77rem;color:var(--text2);line-height:1.75;
+    display:-webkit-box;-webkit-box-orient:vertical;
+    -webkit-line-clamp:3;overflow:hidden;margin-bottom:0.9rem;
+  }
+  .hp-footer{
+    display:flex;align-items:center;justify-content:space-between;
+    padding-top:0.8rem;border-top:1px solid var(--border);
+  }
+  .hp-author{display:flex;align-items:center;gap:0.5rem}
+  .hp-avatar{
+    width:34px;height:34px;border-radius:50%;
+    background:var(--accent);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1rem;flex-shrink:0;
+  }
+  .hp-name{font-size:0.7rem;font-weight:600;color:var(--text2)}
+  .hp-read{
+    font-size:0.7rem;color:var(--accent);font-weight:600;
+    text-decoration:none;display:inline-flex;align-items:center;gap:0.25rem;
+    transition:gap 0.2s;
+  }
+  .hp-read:hover{gap:0.4rem}
+
+  /* ══ TICKER ══ */
+  .ticker-wrap{
+    position:relative;z-index:1;
+    border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+    overflow:hidden;padding:0.65rem 0;background:var(--bg2);
+  }
+  .ticker{display:flex;width:max-content;animation:tick 28s linear infinite}
+  .ticker:hover{animation-play-state:paused}
+  @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .ti{
+    display:inline-flex;align-items:center;gap:0.45rem;
+    padding:0 1.8rem;font-size:0.74rem;font-weight:500;
+    color:var(--muted);white-space:nowrap;
+  }
+  .ti i{color:var(--accent);font-size:0.68rem}
+  .td{width:3px;height:3px;border-radius:50%;background:var(--border-a);margin:0 0.3rem;flex-shrink:0}
+
+  /* ══ STATS ══ */
+  .stats-wrap{
+    position:relative;z-index:1;
+    padding:2.5rem 2.5rem;
+  }
+  .stats-grid{
+    max-width:1100px;margin:0 auto;
+    display:grid;grid-template-columns:repeat(4,1fr);
+    gap:1px;background:var(--border);
+    border:1px solid var(--border);border-radius:16px;overflow:hidden;
+  }
+  .stat-item{
+    background:var(--card);padding:1.5rem 1.75rem;
+    display:flex;flex-direction:column;gap:0.35rem;
+    transition:background 0.2s;
+  }
+  .stat-item:hover{background:var(--card-h)}
+  .stat-icon-wrap{
+    width:36px;height:36px;border-radius:8px;
+    background:var(--glow);border:1px solid var(--border-a);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--accent);font-size:0.85rem;margin-bottom:0.5rem;
+  }
+  .stat-num{
+    font-family:'Bricolage Grotesque',sans-serif;
+    font-size:1.8rem;font-weight:800;letter-spacing:-0.03em;
+    line-height:1;color:var(--text);
+  }
+  .stat-num span{color:var(--accent)}
+  .stat-label{font-size:0.75rem;font-weight:500;color:var(--muted)}
+  .stat-sub{font-size:0.68rem;color:var(--muted);opacity:0.7;margin-top:0.1rem}
+
+  /* ══ SECTION ══ */
+  .section{
+    position:relative;z-index:1;
+    max-width:1100px;margin:0 auto;padding:2.5rem 2.5rem 3.5rem;
+  }
+  hr.sep{border:none;border-top:1px solid var(--border);margin:0;position:relative;z-index:1}
+  .s-head{margin-bottom:1.75rem;text-align:center}
+  .s-head h2{
+    font-family:'Bricolage Grotesque',sans-serif;
+    font-size:1.5rem;font-weight:800;letter-spacing:-0.02em;
+  }
+  .s-head p{color:var(--muted);font-size:0.82rem;margin-top:0.25rem}
+
+  /* ══ SEARCH ══ */
+  .search-wrap{display:flex;justify-content:center;margin-bottom:1.35rem}
+  .sbox{
+    display:flex;width:100%;max-width:500px;
+    background:var(--card);border:1px solid var(--border);
+    border-radius:10px;overflow:hidden;transition:border-color 0.2s;
+  }
+  .sbox:focus-within{border-color:var(--border-a)}
+  .sbox input{
+    flex:1;padding:0.65rem 1rem;background:transparent;
+    border:none;outline:none;color:var(--text);
+    font-size:0.87rem;font-family:'DM Sans',sans-serif;
+  }
+  .sbox input::placeholder{color:var(--muted)}
+  .sbox button{
+    background:var(--accent);border:none;color:#fff;
+    padding:0 1.1rem;cursor:pointer;font-size:0.85rem;transition:opacity 0.2s;
+  }
+  .sbox button:hover{opacity:0.85}
+
+  /* ══ FILTERS ══ */
+  .filters{display:flex;flex-wrap:wrap;justify-content:center;gap:0.45rem;margin-bottom:2rem}
+  .filter-btn{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:100px;padding:0.3rem 0.88rem;
+    font-size:0.73rem;font-weight:500;color:var(--muted);
+    font-family:'DM Sans',sans-serif;cursor:pointer;
+    white-space:nowrap;transition:all 0.18s;
+  }
+  .filter-btn:hover{border-color:var(--border-a);color:var(--text)}
+  .filter-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700}
+
+  /* ══ BLOG GRID ══ */
+  .posts{
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:1px;background:var(--border);
+    border:1px solid var(--border);border-radius:16px;overflow:hidden;
+    margin:0;padding:0;
+  }
+  /* first card — latest/top post full width */
+  .post-card:first-child{
+    grid-column:1/-1;
+    display:grid;grid-template-columns:1.05fr 1fr;
+    background:var(--card);transition:background 0.2s;
+  }
+  .post-card:first-child:hover{background:var(--card-h)}
+  .post-card:first-child .card-inner-l{
+    padding:2rem;border-right:1px solid var(--border);
+    display:flex;flex-direction:column;gap:0.75rem;
+  }
+  .post-card:first-child .card-inner-r{
+    padding:2rem;display:flex;flex-direction:column;gap:0.85rem;
+  }
+  /* regular cards */
+  .post-card{
+    background:var(--card);padding:1.5rem;
+    display:flex;flex-direction:column;gap:0.6rem;
+    transition:background 0.2s;position:relative;overflow:hidden;
+  }
+  .post-card::before{
+    content:'';position:absolute;top:0;left:0;right:0;
+    height:2px;background:var(--accent);
+    transform:scaleX(0);transform-origin:left;transition:transform 0.3s ease;
+  }
+  .post-card:hover{background:var(--card-h)}
+  .post-card:hover::before{transform:scaleX(1)}
+
+  .c-cat{
+    font-size:0.64rem;font-weight:700;letter-spacing:0.09em;
+    text-transform:uppercase;color:var(--accent);opacity:0.8;
+  }
+  .post-card h3{
+    font-family:'Bricolage Grotesque',sans-serif;
+    font-size:1rem;font-weight:700;line-height:1.3;
+    letter-spacing:-0.012em;color:var(--text);transition:color 0.2s;
+    margin:0;
+  }
+  .post-card:first-child h3{font-size:1.35rem;line-height:1.2}
+  .post-card:hover h3{color:var(--accent)}
+  .post-card p{
+    font-size:0.8rem;color:var(--text2);line-height:1.8;
+    display:-webkit-box;-webkit-box-orient:vertical;
+    -webkit-line-clamp:3;overflow:hidden;flex:1;
+    margin:0;
+  }
+  .post-card:first-child p{-webkit-line-clamp:4}
+
+  .c-meta{
+    display:flex;align-items:center;gap:0.6rem;
+    margin-top:auto;padding-top:0.85rem;border-top:1px solid var(--border);
+  }
+  .c-time{display:inline-flex;align-items:center;gap:0.3rem;font-size:0.68rem;color:var(--muted)}
+  .c-time i{font-size:0.6rem}
+  .post-actions{margin:0;padding:0;border:none}
+  .post-actions a{
+    display:inline-flex;align-items:center;gap:0.3rem;
+    color:var(--accent);font-size:0.76rem;font-weight:600;
+    text-decoration:none;margin-left:auto;
+    border-bottom:1px solid transparent;
+    transition:gap 0.18s,border-color 0.18s;
+    background:none;padding:0;border-radius:0;
+  }
+  .post-actions a:hover{gap:0.45rem;border-color:var(--accent);text-decoration:none}
+
+  /* no posts */
+  .no-posts-message{
+    grid-column:1/-1;text-align:center;
+    padding:4rem 1rem;color:var(--muted);font-size:0.9rem;
+  }
+  .no-posts-message i{font-size:2rem;display:block;margin-bottom:0.75rem;opacity:0.4}
+
+  /* ══ PAGINATION ══ */
+  .pagination{
+    display:flex;justify-content:center;align-items:center;
+    flex-wrap:wrap;gap:0.4rem;
+    padding:2rem 0 0.5rem;
+    font-family:'DM Sans',sans-serif;font-weight:600;
+  }
+  .pagination a,.pagination span{
+    display:inline-flex;align-items:center;justify-content:center;
+    min-width:36px;height:36px;padding:0 0.5rem;
+    border-radius:8px;font-size:0.8rem;
+    text-decoration:none;transition:all 0.18s;white-space:nowrap;
+  }
+  .pagination a{border:1px solid var(--border);color:var(--muted);background:var(--card)}
+  .pagination a:hover{border-color:var(--border-a);color:var(--accent);background:var(--glow)}
+  .pagination span{background:var(--accent);color:#fff;border:1px solid var(--accent)}
+
+  /* ══ CONNECT ══ */
+  .connect-section{
+    position:relative;z-index:1;
+    border-top:1px solid var(--border);
+    max-width:1100px;margin:0 auto;
+    padding:4rem 2.5rem;
+    display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;
+  }
+  .connect-section h2{
+    font-family:'Bricolage Grotesque',sans-serif;
+    font-size:clamp(1.5rem,2.8vw,2rem);font-weight:800;
+    letter-spacing:-0.025em;line-height:1.2;margin-bottom:0.7rem;
+  }
+  .connect-section h2 em{font-style:normal;color:var(--accent)}
+  .connect-section .slogan{color:var(--text2);font-size:0.87rem;line-height:1.85}
+  .s-list{display:flex;flex-direction:column;gap:0.55rem}
+  .s-btn{
+    display:flex;align-items:center;gap:0.85rem;
+    border:1px solid var(--border);border-radius:10px;
+    padding:0.8rem 1rem;color:var(--text);
+    text-decoration:none;background:var(--card);transition:all 0.2s;
+  }
+  .s-btn:hover{border-color:var(--border-a);background:var(--card-h);transform:translateX(4px)}
+  .s-ico{font-size:0.95rem;width:18px;text-align:center;color:var(--accent);flex-shrink:0}
+  .s-lbl{font-size:0.82rem;font-weight:600}
+  .s-sub{font-size:0.68rem;color:var(--muted);margin-left:auto}
+
+  /* ══ FOOTER ══ */
+  footer{
+    position:relative;z-index:1;
+    border-top:1px solid var(--border);
+    padding:1.2rem 2.5rem;
+    display:flex;align-items:center;justify-content:space-between;
+    font-size:0.72rem;color:var(--muted);flex-wrap:wrap;gap:0.5rem;
+    text-align:left;margin:0;
+  }
+  .f-logo{font-family:'Dancing Script',cursive;font-size:1.1rem;color:var(--accent)}
+
+  /* ══ RESPONSIVE ══ */
+  @media(max-width:900px){
+    .hero-section{grid-template-columns:1fr;gap:2rem;padding:3.5rem 1.5rem 3rem}
+    .hero-desc{max-width:100%}
+    .connect-section{grid-template-columns:1fr;gap:2rem;padding:3rem 1.5rem}
+    .section{padding:2.5rem 1.5rem 3rem}
+    .stats-wrap{padding:2rem 1.5rem}
+    footer{padding:1rem 1.5rem}
+    .post-card:first-child{grid-template-columns:1fr}
+    .post-card:first-child .card-inner-l{border-right:none;border-bottom:1px solid var(--border)}
+    .hero-preview{display:none}
+    .stats-grid{grid-template-columns:repeat(2,1fr)}
+  }
+  @media(max-width:640px){
+    .posts{grid-template-columns:1fr;border-radius:10px}
+    .post-card:first-child{grid-template-columns:1fr}
+    .hero-section h1{font-size:1.85rem}
+    .post-card{padding:1.1rem}
+    .filters{gap:0.4rem}
+    .filter-btn{padding:0.28rem 0.75rem;font-size:0.71rem}
+    .pagination{gap:0.35rem;padding:1.5rem 0.25rem 0.5rem}
+    .pagination a,.pagination span{min-width:32px;height:32px;font-size:0.75rem}
+    .connect-section{padding:2.5rem 1.2rem}
+    footer{padding:1rem 1.2rem;flex-direction:column;text-align:center}
+    .stats-wrap{padding:1.5rem 1.2rem}
+    .stats-grid{grid-template-columns:1fr 1fr}
+    .stat-item{padding:1.1rem 1.2rem}
+    .stat-num{font-size:1.4rem}
+  }
+  </style>
+</head>
+
+<body>
+  {% include 'index.html' %}
+
+  <!-- HERO -->
+  <section class="hero-section">
+    <div>
+      <div class="h-tag">Python Developer &amp; Tech Explorer</div>
+      <h1>Hi, I'm Abdul<br><em>Hadi Salman.</em></h1>
+      <p class="hero-desc">Welcome to my digital journal where code meets creativity. I write about Python, Django, real projects, and the honest lessons nobody talks about.</p>
+      <div class="hero-btns">
+        <a href="#posts" class="btn-primary">Read the Blog <i class="fas fa-arrow-down" style="font-size:0.65rem"></i></a>
+        <a href="#connect" class="btn-ghost">Get in touch</a>
+      </div>
+    </div>
+    <div class="hero-preview">
+      <div class="hp-top">
+        <div class="hp-dots"><span></span><span></span><span></span></div>
+        <span class="hp-label">latest post</span>
+      </div>
+      <div class="hp-body">
+        <!-- I want to set the latest updated code  -->
+        <div class="hp-tag">{{ last_blog.category }}</div>
+        <div class="hp-title">{{ last_blog }}</div>
+        <div class="hp-excerpt">{{ last_blog.summary }}</div>
+        <div class="hp-footer">
+          <div class="hp-author">
+            <div class="hp-avatar"><i class="fab fa-python"></i></div>
+            <span class="hp-name">Abdul Hadi</span>
+          </div>
+          <a href="#" class="hp-read">Read <i class="fas fa-arrow-right" style="font-size:0.6rem"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker">
+      <span class="ti"><i class="fab fa-python"></i> Python</span><span class="td"></span>
+      <span class="ti"><i class="fas fa-server"></i> Django</span><span class="td"></span>
+      <span class="ti"><i class="fas fa-plug"></i> Django REST Framework</span><span class="td"></span>
+      <span class="ti"><i class="fas fa-database"></i> PostgreSQL</span><span class="td"></span>
+      <span class="ti"><i class="fas fa-key"></i> JWT Auth</span><span class="td"></span>
+      <span class="ti"><i class="fas fa-cloud"></i> REST APIs</span><span class="td"></span>
+      <span class="ti"><i class="fab fa-git-alt"></i> Git &amp; GitHub</span><span class="td"></span>
+      <span class="ti"><i class="fas fa-robot"></i> AI Agents</span><span class="td"></span>
+      <span class="ti"><i class="fas fa-terminal"></i> Backend Dev</span><span class="td"></span>
+      <span class="ti"><i class="fab fa-python"></i> Python</span><span class="td"></span>
+      <span class="ti"><i class="fas fa-server"></i> Django</span><span class="td"></span>
+      <span class="ti"><i class="fas fa-plug"></i> Django REST Framework</span><span class="td"></span>
+      <span class="ti"><i class="fas fa-database"></i> PostgreSQL</span><span class="td"></span>
+      <span class="ti"><i class="fas fa-key"></i> JWT Auth</span><span class="td"></span>
+      <span class="ti"><i class="fas fa-cloud"></i> REST APIs</span><span class="td"></span>
+      <span class="ti"><i class="fab fa-git-alt"></i> Git &amp; GitHub</span><span class="td"></span>
+      <span class="ti"><i class="fas fa-robot"></i> AI Agents</span><span class="td"></span>
+      <span class="ti"><i class="fas fa-terminal"></i> Backend Dev</span><span class="td"></span>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-wrap">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-icon-wrap"><i class="fas fa-pen-nib"></i></div>
+        <div class="stat-num">{{ total_blogs }}<span>+</span></div>
+        <div class="stat-label">Total Articles</div>
+        <div class="stat-sub">Across 9 categories</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-icon-wrap"><i class="fas fa-layer-group"></i></div>
+        <div class="stat-num">9</div>
+        <div class="stat-label">Categories</div>
+        <div class="stat-sub">From coding to career</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-icon-wrap"><i class="fas fa-clock"></i></div>
+        <div class="stat-num">4<span>m</span></div>
+        <div class="stat-label">Avg. Read Time</div>
+        <div class="stat-sub">Concise &amp; to the point</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-icon-wrap"><i class="fas fa-calendar-alt"></i></div>
+        <div class="stat-num">2<span>y</span></div>
+        <div class="stat-label">Writing Since</div>
+        <div class="stat-sub">Student → Developer journey</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOG HEADING -->
+  <div class="section s-head" id="posts">
+    <h2>Latest Blogs</h2>
+    <p>Fresh thoughts, insights &amp; dev journeys ✨</p>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-wrap" style="position:relative;z-index:1;padding:0 2.5rem;max-width:1100px;margin:0 auto 0;">
+    <form method="get" action="{% url 'blog_list' %}" style="display:flex;width:100%;max-width:500px;background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color 0.2s;">
+      <input type="text" name="q" placeholder="Search blogs..." value="{{ request.GET.q|default:'' }}"
+        style="flex:1;padding:0.65rem 1rem;background:transparent;border:none;outline:none;color:var(--text);font-size:0.87rem;font-family:'DM Sans',sans-serif;">
+      <button type="submit" style="background:var(--accent);border:none;color:#fff;padding:0 1.1rem;cursor:pointer;font-size:0.85rem;"><i class="fas fa-search"></i></button>
+    </form>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filters" style="position:relative;z-index:1;padding:1.25rem 2.5rem 0;max-width:1100px;margin:0 auto;">
+    <button type="button" class="filter-btn active" data-filter="all">All</button>
+    <button type="button" class="filter-btn" data-filter="Problem Solving">Problem Solving</button>
+    <button type="button" class="filter-btn" data-filter="Community & Collaboration">Community &amp; Collaboration</button>
+    <button type="button" class="filter-btn" data-filter="Tech & Trends">Tech &amp; Trends</button>
+    <button type="button" class="filter-btn" data-filter="Projects & Builds">Projects &amp; Builds</button>
+    <button type="button" class="filter-btn" data-filter="Learning & Resources">Learning &amp; Resources</button>
+    <button type="button" class="filter-btn" data-filter="Career & Motivation">Career &amp; Motivation</button>
+    <button type="button" class="filter-btn" data-filter="Coding & Programming">Coding &amp; Programming</button>
+    <button type="button" class="filter-btn" data-filter="Developer Journey">Developer Journey</button>
+  </div>
+
+  <!-- POSTS GRID -->
+  <section class="section" style="padding-top:1.5rem">
+    <div class="posts">
+      {% if page_obj.object_list %}
+        {% for blog in page_obj %}
+          {% if forloop.first %}
+            <div class="post-card">
+              <div class="card-inner-l">
+                <span class="c-cat">{{ blog.category|default:"Developer Journey" }}</span>
+                <h3>{{ blog.title }}</h3>
+                <div class="c-meta">
+                  <span class="c-time"><i class="fas fa-clock"></i> {{ blog.reading_time|default:"5" }} min read</span>
+                  <div class="post-actions">
+                    <a href="{% url 'blog_detail' blog.slug %}">Read More <i class="fas fa-arrow-right" style="font-size:0.6rem"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="card-inner-r">
+                <p>{{ blog.summary|safe|truncatewords:35|default:" " }}</p>
+              </div>
+            </div>
+          {% else %}
+            <div class="post-card">
+              <span class="c-cat">{{ blog.category|default:"Blog" }}</span>
+              <h3>{{ blog.title }}</h3>
+              <p>{{ blog.summary|safe|truncatewords:20|default:" " }}</p>
+              <div class="c-meta">
+                <span class="c-time"><i class="fas fa-clock"></i> {{ blog.reading_time|default:"4" }} min read</span>
+                <div class="post-actions">
+                  <a href="{% url 'blog_detail' blog.slug %}">Read More <i class="fas fa-arrow-right" style="font-size:0.6rem"></i></a>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <div class="no-posts-message">
+          <i class="fas fa-folder-open"></i>
+          <p>No blog posts found in this category.</p>
+        </div>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- PAGINATION -->
+  <div class="pagination" style="position:relative;z-index:1">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">
+        <i class="fas fa-chevron-left" style="font-size:0.6rem"></i> Prev
+      </a>
+    {% endif %}
+    {% for num in page_obj.paginator.page_range %}
+      {% if num == page_obj.number %}
+        <span><strong>{{ num }}</strong></span>
+      {% else %}
+        <a href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">{{ num }}</a>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">
+        Next <i class="fas fa-chevron-right" style="font-size:0.6rem"></i>
+      </a>
+    {% endif %}
+  </div>
+
+  <hr class="sep">
+
+  <!-- CONNECT -->
+  <section class="connect-section" id="connect">
+    <div>
+      <h2>Let's build something<br><em>amazing</em> together.</h2>
+      <p class="slogan">Open to conversations about code, tech, and projects. Whether it's a collaboration idea or just saying hi — reach out anytime.</p>
+    </div>
+    <div class="s-list">
+      <a href="https://abdulhadi-dev.vercel.app/" target="_blank" class="s-btn">
+        <i class="fas fa-user s-ico"></i>
+        <span class="s-lbl">Portfolio</span>
+        <span class="s-sub">abdulhadi-dev.vercel.app</span>
+      </a>
+      <a href="mailto:abdulhadistmstudent@gmail.com" class="s-btn">
+        <i class="fas fa-envelope s-ico"></i>
+        <span class="s-lbl">Email</span>
+        <span class="s-sub">abdulhadistmstudent@gmail.com</span>
+      </a>
+      <a href="https://www.linkedin.com/in/abdul-hadi-43934b28a/" target="_blank" class="s-btn">
+        <i class="fab fa-linkedin-in s-ico"></i>
+        <span class="s-lbl">LinkedIn</span>
+        <span class="s-sub">Abdul Hadi</span>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <span class="f-logo">Hadi Reflect</span>
+    <span>&copy; 2025 &nbsp;|&nbsp; Designed with purpose and passion.</span>
+  </footer>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function(){
+    // ── filter buttons ──
+    var buttons = document.querySelectorAll('.filter-btn');
+    var currentCategory = new URLSearchParams(window.location.search).get('category');
+    if(currentCategory){
+      var decoded = decodeURIComponent(currentCategory).trim().toLowerCase();
+      document.querySelector('[data-filter="all"]').classList.remove('active');
+      buttons.forEach(function(btn){
+        if(btn.dataset.filter && btn.dataset.filter.trim().toLowerCase() === decoded)
+          btn.classList.add('active');
+      });
+    }
+    buttons.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var url = new URL(window.location.href);
+        url.searchParams.delete('page');
+        if(btn.dataset.filter.toLowerCase() === 'all'){
+          url.searchParams.delete('category');
+        } else {
+          url.searchParams.set('category', btn.dataset.filter);
+        }
+        window.location.href = url.toString();
+      });
+    });
+  });
+  </script>
+</body>
+</html>
+
+{% comment %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
@@ -663,22 +1323,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
    
-{% comment %}
-<!-- This is the old Post Code but it is perfectly working that why i didn't remove it  -->
-  <section class=" posts">  
-    {% for blog in page_obj %}
-    <div class="post-card">
-        <h3>{{ blog.title }}</h3>
-        <p>{{ blog.summary|safe|truncatewords:25|default:" " }}</p>
-        <div class="post-actions footer-icons" style="font-weight: bold;">
-          <a href="{% url 'blog_detail' blog.slug %}">
-            Read More →
-          </a>
-        </div>
-      </div>
-      {% endfor %}
-  </section>
-{% endcomment %}
 
 <section class="posts">  
   {% if page_obj.object_list %}
@@ -1009,3 +1653,4 @@ document.addEventListener("DOMContentLoaded", () => {
 </body>
 
 </html>
+{% endcomment %}

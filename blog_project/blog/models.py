@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
-
+import math
 
 # Category model for grouping posts
 class Category(models.Model):
@@ -34,6 +34,11 @@ class BlogPost(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+
+    @property
+    def reading_time(self):
+        word_count = len(self.content.split())
+        return max(1, math.ceil(word_count / 200))
 
     def __str__(self):
         return self.title

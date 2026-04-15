@@ -79,8 +79,12 @@ def blog_list(request):
         blogs = blogs.filter(category__name__iexact=category)
 
     # Order and paginate
+    last_blog = blogs.last()
     blogs = blogs.order_by('-created_at')
-    paginator = Paginator(blogs, 6)
+    total_blogs = BlogPost.objects.filter(is_published=True).count()
+    print(total_blogs, "Total Blogs")
+    print(last_blog)
+    paginator = Paginator(blogs, 7)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -88,6 +92,8 @@ def blog_list(request):
         'page_obj': page_obj,
         'query': query,
         'category': category,
+        "last_blog": last_blog,  # latest blog
+        "total_blogs": total_blogs,
     })
 
 

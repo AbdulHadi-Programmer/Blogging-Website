@@ -1,227 +1,357 @@
 {% load static %}
-
-<style>
-:root {
-  --bg: #0f172a;
-  --text: #f1f5f9;
-  --accent: #38bdf8;
-  --link: #3da9fc;
-}
-
-.light-theme {
-  --bg: #e2e8f0;
-  --text: #0f172a;
-  --accent: #0ea5e9;
-  --link: #0077b6;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hadi Reflect</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Bricolage+Grotesque:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/jpeg" href="{% static 'logo_new_.png' %}">
   
-}
-
-body {
-  background-color: var(--bg);
-  color: var(--text);
-  font-family: 'Poppins', sans-serif !important;
-  margin: 0;
-  transition: all 0.3s ease-in-out;
-}
-
-header {
-  background-color: var(--accent);
-  padding: 1rem 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-  backdrop-filter: saturate(120%) blur(6px);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-}
-
-header .logo-text {
-  font-family: 'Dancing Script', cursive !important;
-  font-weight: bolder;
-  margin: 0;
-  font-size: 2rem !important;
-  text-decoration: none; 
-  color: var(--text);
-  /* background-color: red; */
-}
-
-nav {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  position: relative;
-  margin-left: auto;
-}
-
-nav a {
-  margin: 0 0.5rem;
-  color: var(--text);
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 2rem;
-}
-
-#theme-toggle {
-  background: transparent;
-  border: none;
-  color: var(--text);
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-.hamburger {
-  display: none;
-  background: none;
-  border: none;
-  font-size: 2rem;
-  color: var(--text);
-  cursor: pointer;
-  position: absolute;
-  right: 1rem;
-}
-
-/* Mobile menu */
-@media (max-width: 768px) {
-  header .logo-text {
-    font-size: 1.5rem;
+  <style>
+  /* ══ TOKENS ══ */
+  :root{
+    --bg:#090f1e;
+    --bg2:#0c1424;
+    --card:#111928;
+    --card-h:#16212f;
+    --text:#dde6f0;
+    --text2:#b0c0d0;
+    --muted:#5d7a96;
+    --accent:#38bdf8;
+    --glow:rgba(56,189,248,0.1);
+    --glow2:rgba(56,189,248,0.05);
+    --border:rgba(255,255,255,0.065);
+    --border-a:rgba(56,189,248,0.22);
+    --r:12px;
   }
-  nav {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background-color: var(--accent);
-    flex-direction: column;
+  
+  .light-theme{
+    --bg:#f7f3ed;
+    --bg2:#ede8e0;
+    --card:#ffffff;
+    --card-h:#faf5ef;
+    --text:#1a1208;
+    --text2:#4a3728;
+    --muted:#8a7060;
+    --accent:#0284c7;
+    --glow:rgba(2,132,199,0.09);
+    --glow2:rgba(2,132,199,0.04);
+    --border:rgba(0,0,0,0.08);
+    --border-a:rgba(2,132,199,0.22);
+  }
+
+  /* ══ RESET & BASE ══ */
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'DM Sans',sans-serif;
+    font-size:15px;
+    line-height:1.7;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    transition:background 0.3s,color 0.3s;
+  }
+  body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    background-image:radial-gradient(var(--glow2) 1px,transparent 1px);
+    background-size:28px 28px;
+  }
+
+  /* ══ HEADER / NAVBAR (V2 STYLE) ══ */
+  .navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(var(--bg-rgb), 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s ease;
+  }
+  
+  .nav-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0.85rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
+    gap: 2rem;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .logo {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    transition: opacity 0.2s;
+    background: linear-gradient(135deg, var(--accent) 0%, #60a5fa 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .logo:hover {
+    opacity: 0.85;
+  }
+  
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .nav-link {
+    color: var(--text2);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .nav-link i {
+    font-size: 0.85rem;
+    color: var(--accent);
+  }
+  
+  .nav-link:hover {
+    color: var(--accent);
+    background: var(--glow);
+  }
+  
+  .theme-toggle {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  
+  .theme-toggle:hover {
+    border-color: var(--border-a);
+    color: var(--accent);
+    background: var(--glow);
+    transform: translateY(-1px);
+  }
+  
+  .hamburger {
     display: none;
-    padding: 0.5rem 0;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  
+  .hamburger:hover {
+    border-color: var(--border-a);
+    color: var(--accent);
+    background: var(--glow);
+  }
+  
+  /* Mobile Menu */
+  @media (max-width: 768px) {
+    .nav-container {
+      padding: 0.75rem 1.5rem;
+    }
+    
+    .nav-links {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--bg2);
+      backdrop-filter: blur(12px);
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .nav-links.show {
+      max-height: 300px;
+    }
+    
+    .nav-link {
+      padding: 1rem 1.5rem;
+      justify-content: flex-start;
+      border-bottom: 1px solid var(--border);
+      border-radius: 0;
+    }
+    
+    .nav-link:last-child {
+      border-bottom: none;
+    }
+    
+    .theme-toggle {
+      margin: 0.75rem 1.5rem;
+      width: auto;
+      justify-content: center;
+    }
+    
+    .hamburger {
+      display: flex;
+    }
+  }
+  
+  /* Main Content Container */
+  .main-content {
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Footer V2 Style */
+  .footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 1.2rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    color: var(--muted);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    text-align: left;
     margin: 0;
   }
-  nav.show {
-    display: flex;
+  
+  .footer-logo {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.1rem;
+    color: var(--accent);
   }
-  nav a {
-    padding: 0.7rem 0;
-    width: 100%;
-    text-align: center;
+  
+  @media (max-width: 640px) {
+    .footer {
+      padding: 1rem 1.2rem;
+      flex-direction: column;
+      text-align: center;
+    }
   }
-  #theme-toggle {
-    margin-top: 0.5rem;
-  }
-  .hamburger {
-    display: block;
-  }
-}
+  </style>
+</head>
+<body>
+  <!-- V2 Style Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="/" class="logo">Hadi Reflect</a>
+      
+      <button class="hamburger" id="hamburger">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <div class="nav-links" id="navLinks">
+        <a href="/" class="nav-link">
+          <i class="fas fa-home"></i> Home
+        </a>
+        <a href="#posts" class="nav-link">
+          <i class="fas fa-blog"></i> Blog
+        </a>
+        <a href="#connect" class="nav-link">
+          <i class="fas fa-envelope"></i> Contact
+        </a>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Theme">
+          <span id="theme-icon"><i class="fas fa-moon"></i></span>
+        </button>
+      </div>
+    </div>
+  </header>
 
-@media (max-width: 420px) {
-  header .logo-text {
-    font-size: 1.3rem;
-  }
-}
-.hamburger {
-  font-size: 1.5rem; /* default desktop */
-}
+  <div class="main-content">
+    {% block content %}
+    {% endblock %}
+  </div>
 
-@media (max-width: 768px) {
-  .hamburger {
-    font-size: 1.8rem; /* still large enough for tap */
-  }
-}
+  <!-- <footer class="footer">
+    <span class="footer-logo">Hadi Reflect</span>
+    <span>&copy; 2025 &nbsp;|&nbsp; Designed with purpose and passion.</span>
+  </footer> -->
 
-@media (max-width: 420px) {
-  .hamburger {
-    font-size: 1.7rem; /* slightly smaller but not tiny */
-  }
-}
-
-/* ---------- EXTRA MEDIA QUERIES ---------- */
-@media (min-width: 1440px) {
-  body { font-size: 18px; }
-  header .logo-text { font-size: 2.5rem;  }
-  nav a { font-size: 1.1rem; }
-}
-
-@media (min-width: 1024px) and (max-width: 1439px) {
-  body { font-size: 16px; }
-  header .logo-text { font-size: 2.2rem !important;  }
-  nav a { font-size: 1rem; }
-}
-
-@media (min-width: 769px) and (max-width: 1023px) {
-  body { font-size: 15px; }
-  header .logo-text { font-size: 2rem !important;  }
-  nav a { font-size: 0.95rem; }
-}
-
-@media (min-width: 481px) and (max-width: 768px) {
-  body { font-size: 14px; }
-  header .logo-text { font-size: 1.5rem !important;  }
-  nav a { font-size: 0.9rem; }
-}
-
-@media (max-width: 480px) {
-  body { font-size: 13px; }
-  header .logo-text { font-size: 1.3rem !important;  }
-  nav a { font-size: 0.85rem; }
-}
-
-footer {
-  text-align: center;
-  padding: 2rem;
-  font-size: 0.9rem;
-}
-</style>
-
-<header id="header">
-  <a href="#header" class="logo-text">Hadi Reflect</a>
-  <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
-  <nav id="nav">
-    <a href="#">Home</a>
-    <a href="#posts">Blog</a>
-    <a href="#icon-row">Contact</a>
-    <button id="theme-toggle" aria-label="Toggle Theme">
-      <span id="icon"><i class="fas fa-moon"></i></span>
-    </button>
-  </nav>
-</header>
-
-
-<script>
-const toggleBtn = document.getElementById('theme-toggle');
-const iconSpan = document.getElementById('icon');
-const hamburger = document.getElementById('hamburger');
-const nav = document.getElementById('nav');
-
-// Load theme from localStorage
-window.onload = () => {
+  <script>
+  // Theme Toggle
+  const toggleBtn = document.getElementById('theme-toggle');
+  const themeIcon = document.getElementById('theme-icon');
+  
+  // Load saved theme
   const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) {
-    document.body.classList.add(savedTheme);
-    const isLight = savedTheme === 'light-theme';
-    iconSpan.innerHTML = isLight ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+  if (savedTheme === 'light-theme') {
+    document.body.classList.add('light-theme');
+    themeIcon.innerHTML = '<i class="fas fa-sun"></i>';
   } else {
-    document.body.classList.add('dark-theme');
-    iconSpan.innerHTML = '<i class="fas fa-moon"></i>';
+    document.body.classList.remove('light-theme');
+    themeIcon.innerHTML = '<i class="fas fa-moon"></i>';
   }
-};
-
-// Theme toggle
-toggleBtn.addEventListener('click', () => {
-  document.body.classList.toggle('light-theme');
-  const isLight = document.body.classList.contains('light-theme');
-  iconSpan.innerHTML = isLight ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-  localStorage.setItem('theme', isLight ? 'light-theme' : 'dark-theme');
-});
-
-// Hamburger menu toggle
-hamburger.addEventListener('click', () => {
-  nav.classList.toggle('show');
-  hamburger.innerHTML = nav.classList.contains('show') 
-    ? '<i class="fas fa-times"></i>' 
-    : '<i class="fas fa-bars"></i>';
-});
-</script>
+  
+  // Toggle theme
+  toggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('light-theme');
+    const isLight = document.body.classList.contains('light-theme');
+    themeIcon.innerHTML = isLight ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+    localStorage.setItem('theme', isLight ? 'light-theme' : 'dark-theme');
+  });
+  
+  // Hamburger Menu Toggle
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('show');
+    const icon = hamburger.querySelector('i');
+    if (navLinks.classList.contains('show')) {
+      icon.classList.remove('fa-bars');
+      icon.classList.add('fa-times');
+    } else {
+      icon.classList.remove('fa-times');
+      icon.classList.add('fa-bars');
+    }
+  });
+  
+  // Close menu when clicking a link
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('show');
+      const icon = hamburger.querySelector('i');
+      icon.classList.remove('fa-times');
+      icon.classList.add('fa-bars');
+    });
+  });
+  </script>
+</body>
+</html>
