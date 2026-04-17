@@ -402,12 +402,14 @@
       </span>
       {% endif %}
       
+      {% comment %}
       {% if blog.created_at %}
       <span class="meta-item">
         <i class="fas fa-calendar-alt"></i> {{ blog.created_at|date:"F d, Y" }}
       </span>
       {% endif %}
-      
+      {% endcomment %}
+
       {% if blog.reading_time %}
       <span class="meta-item">
         <i class="fas fa-clock"></i> {{ blog.reading_time }} min read
@@ -461,7 +463,7 @@ document.addEventListener('DOMContentLoaded', function() {
           block: 'start'
         });
       }
-    });
+    });Reading
   });
 });
 </script>
